@@ -16,3 +16,17 @@
     --color-danger: #EF4444;
     --color-glass: rgba(255, 255, 255, 0.05);
 }
+
+/* Wallpapers */
+.wallpaper-sonoma {
+    background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+}
+.wallpaper-cyberpunk {
+    background: radial-gradient(circle at 80% 20%, #581c87 0%, #09090b 50%, #831843 100%);
+}
+.wallpaper-retrowave {
+    background: radial-gradient(circle at 50% 30%, #881337 0%, #1e1b4b 50%, #020617 100%);
+}
+.wallpaper-matrix {
+    background: radial-gradient(circle at 50% 50%, #064e3b 0%, #022c22 40%, #000000 100%);
+}
