@@ -49,7 +49,9 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-primary text-white font-sans antialiased h-screen w-screen overflow-hidden flex flex-col relative transition-all duration-700" :class="currentWallpaper" x-data="portfolioOS()">
+<body class="bg-primary text-white font-sans antialiased h-screen w-screen overflow-hidden flex flex-col relative transition-all duration-700" 
+      :style="'background: ' + (wallpapers[currentWallpaper] || wallpapers['sonoma'])" 
+      x-data="portfolioOS()">
 
     <!-- Booting Overlay -->
     <div x-show="booting" class="absolute inset-0 bg-black z-[9999] flex flex-col justify-start p-8 font-mono text-green-500 text-sm overflow-hidden"
@@ -165,10 +167,16 @@
                 </div>
                 <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Settings</span>
             </div>
+            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('cli')" @click.stop>
+                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">System CLI</span>
+            </div>
         </div>
         
-        <!-- Terminal Window -->
-        <div class="absolute top-10 left-10 w-[680px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
+        <!-- Terminal Window (About Me Bio) -->
+        <div class="absolute top-10 left-10 w-[640px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
              id="terminal-window" x-show="windows.terminal.open" x-transition x-on:mousedown="bringToFront('terminal')" :style="'z-index: ' + windows.terminal.z" x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
@@ -176,26 +184,15 @@
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">danang@portfolio: ~</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono">danang@portfolio: ~ (About Me)</div>
             </div>
-            <div class="p-4 font-mono text-sm text-gray-300 flex-1 overflow-y-auto h-[440px] flex flex-col" id="terminal-content">
-                <div class="mb-3 text-xs text-gray-400">
+            <div class="p-5 font-mono text-sm text-gray-300 flex-1 overflow-y-auto h-[440px]" id="terminal-content">
+                <div class="mb-4 text-xs text-gray-400">
                     DanangOS (v2.0.0) <br>
-                    <span x-text="locale === 'en' ? 'Type \'neofetch\' or \'help\' for available commands.' : 'Ketik \'neofetch\' atau \'help\' untuk melihat perintah.'"></span>
+                    <span x-text="locale === 'en' ? 'Welcome to my developer portfolio!' : 'Selamat datang di portofolio interaktif saya!'"></span>
                 </div>
-                <div class="flex-1">
-                    <div class="text-white whitespace-pre-wrap" id="typed-output"></div>
-                </div>
-                <div class="mt-3 flex items-center pt-2 border-t border-white/10">
-                    <span class="text-success mr-2 font-mono text-sm">danang@portfolio:~$</span>
-                    <input type="text" 
-                           x-model="termInput" 
-                           @keydown.enter="handleTerminalCommand" 
-                           class="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder-gray-500" 
-                           spellcheck="false" 
-                           autocomplete="off" 
-                           placeholder="type 'neofetch' or 'help'...">
-                </div>
+                <!-- Bio Typing Output -->
+                <div class="text-white whitespace-pre-wrap leading-relaxed" id="typed-output"></div>
             </div>
         </div>
 
@@ -445,59 +442,59 @@
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <!-- Sonoma Dark -->
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
-                         :class="currentWallpaper === 'wallpaper-sonoma' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
-                         @click="currentWallpaper = 'wallpaper-sonoma'">
+                         :class="currentWallpaper === 'sonoma' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'sonoma'">
                         <div class="h-24 rounded-lg wallpaper-sonoma mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-white">Sonoma Dark</span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-sm font-semibold text-white">Sonoma Dark</span>
-                            <span x-show="currentWallpaper === 'wallpaper-sonoma'" class="text-xs text-accent font-bold">Active</span>
+                            <span x-show="currentWallpaper === 'sonoma'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
 
                     <!-- Cyberpunk -->
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
-                         :class="currentWallpaper === 'wallpaper-cyberpunk' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
-                         @click="currentWallpaper = 'wallpaper-cyberpunk'">
+                         :class="currentWallpaper === 'cyberpunk' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'cyberpunk'">
                         <div class="h-24 rounded-lg wallpaper-cyberpunk mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-pink-300">Cyberpunk Neon</span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-sm font-semibold text-white">Cyberpunk Neon</span>
-                            <span x-show="currentWallpaper === 'wallpaper-cyberpunk'" class="text-xs text-accent font-bold">Active</span>
+                            <span x-show="currentWallpaper === 'cyberpunk'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
 
                     <!-- Retrowave -->
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
-                         :class="currentWallpaper === 'wallpaper-retrowave' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
-                         @click="currentWallpaper = 'wallpaper-retrowave'">
+                         :class="currentWallpaper === 'retrowave' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'retrowave'">
                         <div class="h-24 rounded-lg wallpaper-retrowave mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-rose-300">Retrowave Sunset</span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-sm font-semibold text-white">Retrowave Sunset</span>
-                            <span x-show="currentWallpaper === 'wallpaper-retrowave'" class="text-xs text-accent font-bold">Active</span>
+                            <span x-show="currentWallpaper === 'retrowave'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
 
                     <!-- Matrix Emerald -->
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
-                         :class="currentWallpaper === 'wallpaper-matrix' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
-                         @click="currentWallpaper = 'wallpaper-matrix'">
+                         :class="currentWallpaper === 'matrix' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'matrix'">
                         <div class="h-24 rounded-lg wallpaper-matrix mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-green-400">Matrix Emerald</span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-sm font-semibold text-white">Matrix Emerald</span>
-                            <span x-show="currentWallpaper === 'wallpaper-matrix'" class="text-xs text-accent font-bold">Active</span>
+                            <span x-show="currentWallpaper === 'matrix'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="p-4 bg-white/5 rounded-xl border border-white/10 text-xs text-gray-300 flex items-center justify-between">
-                    <span>Pro-tip: You can also change themes directly from Terminal using <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">wallpaper 1..4</code> or <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">theme cyberpunk</code>!</span>
+                    <span>Pro-tip: Select any wallpaper card above to instantly apply the desktop background!</span>
                 </div>
             </div>
         </div>
@@ -609,6 +606,13 @@
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.preferences.open" x-cloak></div>
             </button>
             
+            <!-- System CLI App -->
+            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('cli')">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">System CLI</span>
+                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.cli.open" x-cloak></div>
+            </button>
+            
             <div class="w-px h-10 bg-white/20 mx-1"></div>
             
             <!-- AI App -->
@@ -683,10 +687,18 @@
                     projectPreview: { open: false, z: 12 },
                     notes: { open: false, z: 13 },
                     music: { open: false, z: 14 },
-                    preferences: { open: false, z: 15 }
+                    preferences: { open: false, z: 15 },
+                    cli: { open: false, z: 16 }
                 },
-                currentWallpaper: 'wallpaper-sonoma',
-                termInput: '',
+                currentWallpaper: 'sonoma',
+                wallpapers: {
+                    'sonoma': 'radial-gradient(circle at 20% 20%, #1e1b4b 0%, #0f172a 50%, #020617 100%)',
+                    'cyberpunk': 'radial-gradient(circle at 80% 20%, #581c87 0%, #09090b 50%, #831843 100%)',
+                    'retrowave': 'radial-gradient(circle at 50% 30%, #881337 0%, #1e1b4b 50%, #020617 100%)',
+                    'matrix': 'radial-gradient(circle at 50% 50%, #064e3b 0%, #022c22 40%, #000000 100%)'
+                },
+                cliLog: '',
+                cliInput: '',
                 contactForm: { name: '', email: '', message: '' },
                 contactSending: false,
                 contactSuccess: false,
@@ -776,15 +788,18 @@
                     if (!el) return;
                     el.innerHTML = '';
 
-                    const whoamiId = "Saya adalah seorang Web Developer dan mahasiswa Sistem Informasi yang memiliki minat besar terhadap pengembangan perangkat lunak dan teknologi web modern.<br><br>Berbekal pengalaman sebagai Web Developer Intern di Kementerian Perdagangan Republik Indonesia, sertifikasi BNSP Junior Web Developer, serta pengalaman dalam organisasi dan kompetisi teknologi, saya terus berkomitmen untuk mengembangkan solusi digital yang berkualitas, efisien, dan berorientasi pada kebutuhan pengguna.<br><br>Saya percaya bahwa setiap aplikasi yang baik tidak hanya dibangun dengan teknologi yang tepat, tetapi juga melalui pemahaman terhadap kebutuhan pengguna, perhatian terhadap detail, dan semangat untuk terus belajar mengikuti perkembangan industri.<br><br>Di luar aktivitas pengembangan perangkat lunak, saya senang mengeksplorasi teknologi baru, membangun proyek pribadi, serta terus meningkatkan kemampuan agar dapat memberikan kontribusi yang lebih besar di dunia teknologi.";
-                    const whoamiEn = "I am a Web Developer and Information Systems student with a strong passion for software development and modern web technologies.<br><br>With experience as a Web Developer Intern at the Ministry of Trade of the Republic of Indonesia, a BNSP Junior Web Developer certification, and involvement in tech organizations and competitions, I am constantly committed to developing high-quality, efficient, and user-oriented digital solutions.<br><br>I believe that every good application is built not only with the right technology but also through a deep understanding of user needs, attention to detail, and a passion for continuous learning in a fast-paced industry.<br><br>Outside of software development, I enjoy exploring new technologies, building personal projects, and continuously improving my skills to make a greater impact in the tech world.";
+                    const whoamiText = "Saya adalah seorang Web Developer dan mahasiswa Sistem Informasi yang memiliki minat besar terhadap pengembangan perangkat lunak dan teknologi web modern.\n\nBerbekal pengalaman sebagai Web Developer Intern di Kementerian Perdagangan Republik Indonesia, sertifikasi BNSP Junior Web Developer, serta pengalaman dalam organisasi dan kompetisi teknologi, saya terus berkomitmen untuk mengembangkan solusi digital yang berkualitas, efisien, dan berorientasi pada kebutuhan pengguna.\n\nSaya percaya bahwa setiap aplikasi yang baik tidak hanya dibangun dengan teknologi yang tepat, tetapi juga melalui pemahaman terhadap kebutuhan pengguna, perhatian terhadap detail, dan semangat untuk terus belajar mengikuti perkembangan industri.\n\nDi luar aktivitas pengembangan perangkat lunak, saya senang mengeksplorasi teknologi baru, membangun proyek pribadi, serta terus meningkatkan kemampuan agar dapat memberikan kontribusi yang lebih besar di dunia teknologi.";
+                    const whoamiEn = "I am a Web Developer and Information Systems student with a strong passion for software development and modern web technologies.\n\nWith experience as a Web Developer Intern at the Ministry of Trade of the Republic of Indonesia, a BNSP Junior Web Developer certification, and involvement in tech organizations and competitions, I am constantly committed to developing high-quality, efficient, and user-oriented digital solutions.\n\nI believe that every good application is built not only with the right technology but also through a deep understanding of user needs, attention to detail, and a passion for continuous learning in a fast-paced industry.\n\nOutside of software development, I enjoy exploring new technologies, building personal projects, and continuously improving my skills to make a greater impact in the tech world.";
                     
+                    const bioText = this.locale === 'en' ? whoamiEn : whoamiText;
+
                     const commands = [
-                        { cmd: 'whoami', out: this.locale === 'en' ? whoamiEn : whoamiId },
+                        { cmd: 'whoami', out: bioText },
                         { cmd: 'skills', out: 'Laravel, Vue, React, Tailwind, MySQL' },
                         { cmd: './explore.sh', out: this.locale === 'en' ? 'Click the apps in the dock to explore.' : 'Klik aplikasi di dock untuk menjelajah.' }
                     ];
                     
+                    let renderedHtml = '';
                     let cmdIndex = 0;
                     let charIndex = 0;
                     let isTypingOutput = false;
@@ -792,165 +807,134 @@
                     const typeNext = () => {
                         if (cmdIndex >= commands.length) return;
                         
-                        if (charIndex === 0 && !isTypingOutput) {
-                            el.innerHTML += (cmdIndex > 0 ? '<br><br>' : '') + '<span class="text-success">danang@portfolio:~$</span> ';
-                        }
+                        const item = commands[cmdIndex];
                         
-                        const currentText = isTypingOutput ? commands[cmdIndex].out : commands[cmdIndex].cmd;
-                        
-                        if (charIndex < currentText.length) {
-                            // Check for HTML tags like <br><br> in the output so it doesn't print < and b separately
-                            if (isTypingOutput && currentText.substring(charIndex, charIndex + 4) === '<br>') {
-                                el.innerHTML += '<br>';
-                                charIndex += 4;
-                            } else {
-                                el.innerHTML += currentText.charAt(charIndex);
+                        if (!isTypingOutput) {
+                            // Typing command
+                            if (charIndex < item.cmd.length) {
                                 charIndex++;
-                            }
-                            
-                            // Commands are typed faster, output is typed slower
-                            const delay = isTypingOutput ? (20 + Math.random() * 20) : (40 + Math.random() * 40);
-                            this.typedInterval = setTimeout(typeNext, delay);
-                        } else {
-                            if (!isTypingOutput) {
-                                // Done typing command, wait a bit then start typing output
-                                this.typedInterval = setTimeout(() => {
-                                    el.innerHTML += '<br><span class="text-gray-300">';
-                                    isTypingOutput = true;
-                                    charIndex = 0;
-                                    typeNext();
-                                }, 300);
+                                const currentCmdText = item.cmd.substring(0, charIndex);
+                                const promptPrefix = cmdIndex > 0 ? '<br><br>' : '';
+                                el.innerHTML = renderedHtml + promptPrefix + '<span class="text-success">danang@portfolio:~$</span> ' + currentCmdText;
+                                this.typedInterval = setTimeout(typeNext, 40);
                             } else {
-                                // Done typing output, close span and wait before next command
-                                el.innerHTML += '</span>';
+                                // Done typing command
+                                const promptPrefix = cmdIndex > 0 ? '<br><br>' : '';
+                                renderedHtml += promptPrefix + '<span class="text-success">danang@portfolio:~$</span> ' + item.cmd + '<br>';
+                                isTypingOutput = true;
+                                charIndex = 0;
+                                this.typedInterval = setTimeout(typeNext, 300);
+                            }
+                        } else {
+                            // Typing output
+                            if (charIndex < item.out.length) {
+                                charIndex += 3;
+                                const currentOutText = item.out.substring(0, charIndex).replace(/\n/g, '<br>');
+                                el.innerHTML = renderedHtml + '<span class="text-gray-300">' + currentOutText + '</span>';
+                                this.typedInterval = setTimeout(typeNext, 15);
+                            } else {
+                                // Done typing output
+                                const finalOutText = item.out.replace(/\n/g, '<br>');
+                                renderedHtml += '<span class="text-gray-300">' + finalOutText + '</span>';
+                                el.innerHTML = renderedHtml;
                                 isTypingOutput = false;
                                 cmdIndex++;
                                 charIndex = 0;
-                                this.typedInterval = setTimeout(typeNext, 800);
+                                this.typedInterval = setTimeout(typeNext, 500);
                             }
                         }
                     };
                     
                     typeNext();
                 },
-                handleTerminalCommand() {
-                    const raw = this.termInput.trim();
-                    if (!raw) return;
-                    this.termInput = '';
+                runCliCommand(cmd = null) {
+                    let commandStr = (typeof cmd === 'string' && cmd.trim() !== '') 
+                        ? cmd.trim() 
+                        : this.cliInput.trim();
+                        
+                    if (!commandStr) return;
                     
-                    const el = document.getElementById('typed-output');
-                    if (!el) return;
+                    if (typeof cmd !== 'string') {
+                        this.cliInput = '';
+                    }
 
-                    const command = raw.toLowerCase();
-                    const escaped = raw.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    
-                    let responseHtml = '';
+                    const command = commandStr.toLowerCase();
+                    const logEl = document.getElementById('cli-output-log');
+                    const appendTarget = document.getElementById('cli-dynamic-append') || logEl;
+                    if (!logEl) return;
 
                     if (command === 'clear') {
-                        el.innerHTML = '';
+                        if (appendTarget) appendTarget.innerHTML = '';
                         return;
-                    } else if (command === 'neofetch' || command === 'fetch') {
-                        const wallName = this.currentWallpaper.replace('wallpaper-', '').toUpperCase();
-                        responseHtml = `
-<div class="flex flex-col sm:flex-row items-start space-x-0 sm:space-x-4 my-2 text-xs font-mono">
-<pre class="text-cyan-400 font-bold leading-tight hidden sm:block">
-  ██████╗  █████╗ ███╗   ██╗ █████╗ ███╗   ██╗ ██████╗ 
-  ██╔══██╗██╔══██╗████╗  ██║██╔══██╗████╗  ██║██╔════╝ 
-  ██║  ██║███████║██╔██╗ ██║███████║██╔██╗ ██║██║  ███╗
-  ██║  ██║██╔══██║██║╚██╗██║██╔══██║██║╚██╗██║██║   ██║
-  ██████╔╝██║  ██║██║ ╚████║██║  ██║██║ ╚████║╚██████╔╝
-  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═══╝ ╚═════╝ 
-</pre>
-<div class="text-gray-200 space-y-0.5">
-<span class="text-emerald-400 font-bold">danang@portfolio</span><br>
-----------------<br>
-<span class="text-blue-400 font-bold">OS:</span> DanangOS v2.0.0 (Mac OS Clone)<br>
-<span class="text-blue-400 font-bold">Kernel:</span> Alpine.js 3.x / Tailwind CSS v4<br>
-<span class="text-blue-400 font-bold">Framework:</span> Laravel 11 / Filament Admin<br>
-<span class="text-blue-400 font-bold">Wallpaper:</span> <span class="text-yellow-400 font-bold">${wallName}</span><br>
-<span class="text-blue-400 font-bold">Stack:</span> PHP, JavaScript, MySQL, Tailwind, Alpine<br>
-<span class="text-blue-400 font-bold">Status:</span> <span class="text-emerald-400 font-bold">Available for hire / opportunities</span><br>
-<div class="flex space-x-1 mt-2">
-<span class="w-3 h-3 bg-red-500 rounded-sm inline-block"></span>
-<span class="w-3 h-3 bg-green-500 rounded-sm inline-block"></span>
-<span class="w-3 h-3 bg-yellow-500 rounded-sm inline-block"></span>
-<span class="w-3 h-3 bg-blue-500 rounded-sm inline-block"></span>
-<span class="w-3 h-3 bg-purple-500 rounded-sm inline-block"></span>
-<span class="w-3 h-3 bg-pink-500 rounded-sm inline-block"></span>
-</div>
-</div>
-</div>`;
+                    }
+
+                    let output = '';
+
+                    if (command === 'neofetch' || command === 'fetch') {
+                        const wallName = (this.currentWallpaper || 'sonoma').toUpperCase();
+                        output = `
+                            <div class="my-2 p-3 bg-black/50 rounded border border-cyan-500/30 font-mono text-xs">
+                                <div class="text-cyan-400 font-bold mb-2">⚡ DanangOS System Info (neofetch)</div>
+                                <div class="grid grid-cols-2 gap-2 text-gray-200">
+                                    <div><span class="text-blue-400 font-bold">OS:</span> DanangOS v2.0.0</div>
+                                    <div><span class="text-blue-400 font-bold">Kernel:</span> Alpine 3.x / Tailwind v4</div>
+                                    <div><span class="text-blue-400 font-bold">Framework:</span> Laravel 11</div>
+                                    <div><span class="text-blue-400 font-bold">Wallpaper:</span> <span class="text-yellow-400 font-bold">${wallName}</span></div>
+                                    <div><span class="text-blue-400 font-bold">Status:</span> <span class="text-emerald-400 font-bold">Available</span></div>
+                                    <div><span class="text-blue-400 font-bold">Stack:</span> PHP, JS, MySQL, Git</div>
+                                </div>
+                            </div>`;
                     } else if (command === 'help') {
-                        responseHtml = `
-<div class="text-gray-300 my-1 text-xs font-mono space-y-1">
-<div class="text-accent font-bold">Available Commands:</div>
-<div><span class="text-yellow-400 font-bold">neofetch</span> - Display system specifications & logo</div>
-<div><span class="text-yellow-400 font-bold">theme &lt;name&gt;</span> - Change wallpaper (sonoma, cyberpunk, retrowave, matrix)</div>
-<div><span class="text-yellow-400 font-bold">wallpaper &lt;1-4&gt;</span> - Change wallpaper by index</div>
-<div><span class="text-yellow-400 font-bold">matrix</span> - Show digital rain ASCII effect</div>
-<div><span class="text-yellow-400 font-bold">whoami</span> - Display Danang's bio</div>
-<div><span class="text-yellow-400 font-bold">skills</span> - List core technical skills</div>
-<div><span class="text-yellow-400 font-bold">projects</span> - Open Projects window</div>
-<div><span class="text-yellow-400 font-bold">contact</span> - Open Contact window</div>
-<div><span class="text-yellow-400 font-bold">music</span> - Open Lofi Music Player</div>
-<div><span class="text-yellow-400 font-bold">pref</span> - Open System Preferences</div>
-<div><span class="text-yellow-400 font-bold">clear</span> - Clear terminal screen</div>
-</div>`;
+                        output = `
+                            <div class="my-2 p-3 bg-black/50 rounded border border-yellow-500/30 text-xs space-y-1">
+                                <div class="text-yellow-400 font-bold mb-1">Available Commands:</div>
+                                <div><span class="text-cyan-300 font-bold">neofetch</span> - System specs</div>
+                                <div><span class="text-cyan-300 font-bold">theme &lt;name&gt;</span> - Change wallpaper (sonoma, cyberpunk, retrowave, matrix)</div>
+                                <div><span class="text-cyan-300 font-bold">matrix</span> - Digital rain effect</div>
+                                <div><span class="text-cyan-300 font-bold">whoami</span> - Bio</div>
+                                <div><span class="text-cyan-300 font-bold">skills</span> - Tech skills</div>
+                                <div><span class="text-cyan-300 font-bold">clear</span> - Clear CLI log</div>
+                            </div>`;
                     } else if (command.startsWith('theme ') || command.startsWith('wallpaper ')) {
                         const arg = command.split(' ')[1];
                         if (arg === '1' || arg === 'sonoma') {
-                            this.currentWallpaper = 'wallpaper-sonoma';
-                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Sonoma Dark.</div>';
+                            this.currentWallpaper = 'sonoma';
+                            output = '<div class="text-blue-400 font-bold my-1">✓ Wallpaper changed to Sonoma Dark.</div>';
                         } else if (arg === '2' || arg === 'cyberpunk') {
-                            this.currentWallpaper = 'wallpaper-cyberpunk';
-                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Cyberpunk Neon.</div>';
+                            this.currentWallpaper = 'cyberpunk';
+                            output = '<div class="text-purple-400 font-bold my-1">✓ Wallpaper changed to Cyberpunk Neon.</div>';
                         } else if (arg === '3' || arg === 'retrowave') {
-                            this.currentWallpaper = 'wallpaper-retrowave';
-                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Retrowave Sunset.</div>';
+                            this.currentWallpaper = 'retrowave';
+                            output = '<div class="text-rose-400 font-bold my-1">✓ Wallpaper changed to Retrowave Sunset.</div>';
                         } else if (arg === '4' || arg === 'matrix') {
-                            this.currentWallpaper = 'wallpaper-matrix';
-                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Matrix Emerald.</div>';
+                            this.currentWallpaper = 'matrix';
+                            output = '<div class="text-emerald-400 font-bold my-1">✓ Wallpaper changed to Matrix Emerald.</div>';
                         } else {
-                            responseHtml = '<div class="text-red-400">Unknown theme. Available: sonoma, cyberpunk, retrowave, matrix (or 1..4)</div>';
+                            output = '<div class="text-red-400 my-1">Unknown theme. Try: sonoma, cyberpunk, retrowave, matrix.</div>';
                         }
                     } else if (command === 'matrix') {
-                        responseHtml = `
-<div class="text-emerald-400 font-mono text-xs my-2 leading-none">
-01000100 01000001 01001110 01000001 01001110 01000111 01001111 01010011<br>
-Wake up, Neo... The Matrix has you.<br>
-01000011 01001111 01000100 01001001 01001110 01000111 00100000 01010011 01001111 01000011 01001011 01010011<br>
-Follow the white rabbit. 🐇
-</div>`;
+                        output = `
+                            <div class="my-2 p-3 bg-black text-emerald-400 font-mono text-xs rounded border border-emerald-500/40">
+                                01000100 01000001 01001110 01000001 01001110 01000111 01001111 01010011<br>
+                                Wake up, Neo... The Matrix has you. 🐇<br>
+                                01000011 01001111 01000100 01001001 01001110 01000111 00100000 01010011
+                            </div>`;
                     } else if (command === 'whoami') {
-                        responseHtml = '<div class="text-gray-300 my-1">Danang Abu Hafid - Full Stack Developer & Information Systems Student.</div>';
+                        output = '<div class="text-gray-200 my-1">Danang Abu Hafid - Full Stack Developer & Information Systems Student.</div>';
                     } else if (command === 'skills') {
-                        responseHtml = '<div class="text-gray-300 my-1">Laravel, Vue.js, React, Tailwind CSS, MySQL, Alpine.js, PHP, JavaScript, Git</div>';
-                    } else if (command === 'projects') {
-                        this.windows.projects.open = true;
-                        this.bringToFront('projects');
-                        responseHtml = '<div class="text-emerald-400">Opening Projects window...</div>';
-                    } else if (command === 'contact') {
-                        this.windows.contact.open = true;
-                        this.bringToFront('contact');
-                        responseHtml = '<div class="text-emerald-400">Opening Contact window...</div>';
-                    } else if (command === 'music') {
-                        this.windows.music.open = true;
-                        this.bringToFront('music');
-                        responseHtml = '<div class="text-emerald-400">Opening Music Player...</div>';
-                    } else if (command === 'pref' || command === 'settings' || command === 'preferences') {
-                        this.windows.preferences.open = true;
-                        this.bringToFront('preferences');
-                        responseHtml = '<div class="text-emerald-400">Opening System Preferences...</div>';
+                        output = '<div class="text-gray-200 my-1">Laravel, Vue.js, React, Tailwind CSS, MySQL, Alpine.js, PHP, JS, Git</div>';
                     } else {
-                        responseHtml = `<div class="text-red-400">zsh: command not found: ${escaped}. Type 'help' for available commands.</div>`;
+                        output = `<div class="text-red-400 my-1">zsh: command not found: ${commandStr}</div>`;
                     }
 
-                    el.innerHTML += `<br><br><span class="text-success">danang@portfolio:~$</span> ${escaped}<br>${responseHtml}`;
+                    const item = document.createElement('div');
+                    item.className = 'mt-2 pt-2 border-t border-white/10';
+                    item.innerHTML = `<div class="text-xs text-emerald-400 font-bold mb-1">danang@portfolio:~$ ${commandStr}</div>${output}`;
                     
-                    this.$nextTick(() => {
-                        const termContainer = document.getElementById('terminal-content');
-                        if (termContainer) termContainer.scrollTop = termContainer.scrollHeight;
-                    });
+                    appendTarget.appendChild(item);
+                    setTimeout(() => {
+                        logEl.scrollTop = logEl.scrollHeight;
+                    }, 50);
                 },
                 updateTime() {
                     const now = new Date();
