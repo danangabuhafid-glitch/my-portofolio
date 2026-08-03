@@ -49,7 +49,7 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-primary text-white font-sans antialiased h-screen w-screen overflow-hidden flex flex-col relative" x-data="portfolioOS()">
+<body class="bg-primary text-white font-sans antialiased h-screen w-screen overflow-hidden flex flex-col relative transition-all duration-700" :class="currentWallpaper" x-data="portfolioOS()">
 
     <!-- Booting Overlay -->
     <div x-show="booting" class="absolute inset-0 bg-black z-[9999] flex flex-col justify-start p-8 font-mono text-green-500 text-sm overflow-hidden"
@@ -159,10 +159,16 @@
                 </div>
                 <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Lofi Player</span>
             </div>
+            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('preferences')" @click.stop>
+                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Settings</span>
+            </div>
         </div>
         
         <!-- Terminal Window -->
-        <div class="absolute top-10 left-10 w-[600px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+        <div class="absolute top-10 left-10 w-[680px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
              id="terminal-window" x-show="windows.terminal.open" x-transition x-on:mousedown="bringToFront('terminal')" :style="'z-index: ' + windows.terminal.z" x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
@@ -172,13 +178,23 @@
                 </div>
                 <div class="mx-auto text-xs text-gray-400 font-mono">danang@portfolio: ~</div>
             </div>
-            <div class="p-4 font-mono text-sm text-gray-300 flex-1 overflow-y-auto h-[400px]" id="terminal-content">
-                <div class="mb-4">
+            <div class="p-4 font-mono text-sm text-gray-300 flex-1 overflow-y-auto h-[440px] flex flex-col" id="terminal-content">
+                <div class="mb-3 text-xs text-gray-400">
                     DanangOS (v2.0.0) <br>
-                    <span x-text="locale === 'en' ? 'Welcome to my interactive developer portfolio!' : 'Selamat datang di portofolio interaktif saya!'"></span>
+                    <span x-text="locale === 'en' ? 'Type \'neofetch\' or \'help\' for available commands.' : 'Ketik \'neofetch\' atau \'help\' untuk melihat perintah.'"></span>
                 </div>
-                <div class="flex items-start">
-                    <div class="text-white mt-1 whitespace-pre-wrap flex-1" id="typed-output"></div>
+                <div class="flex-1">
+                    <div class="text-white whitespace-pre-wrap" id="typed-output"></div>
+                </div>
+                <div class="mt-3 flex items-center pt-2 border-t border-white/10">
+                    <span class="text-success mr-2 font-mono text-sm">danang@portfolio:~$</span>
+                    <input type="text" 
+                           x-model="termInput" 
+                           @keydown.enter="handleTerminalCommand" 
+                           class="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder-gray-500" 
+                           spellcheck="false" 
+                           autocomplete="off" 
+                           placeholder="type 'neofetch' or 'help'...">
                 </div>
             </div>
         </div>
@@ -411,6 +427,81 @@
             </div>
         </div>
 
+        <!-- System Preferences Window -->
+        <div class="absolute top-16 left-28 w-[640px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
+             id="preferences-window" x-show="windows.preferences.open" x-transition x-on:mousedown="bringToFront('preferences')" :style="'z-index: ' + windows.preferences.z" x-cloak x-draggable>
+            <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
+                <div class="flex space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('preferences')"></div>
+                    <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
+                    <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
+                </div>
+                <div class="mx-auto text-xs text-gray-400 font-mono">System Preferences - Wallpaper & Themes</div>
+            </div>
+            <div class="p-6 bg-slate-900/60 overflow-y-auto max-h-[500px]">
+                <h3 class="text-lg font-bold text-white mb-1">Desktop Wallpaper</h3>
+                <p class="text-xs text-gray-400 mb-6">Select a wallpaper theme for your DanangOS desktop session.</p>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <!-- Sonoma Dark -->
+                    <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
+                         :class="currentWallpaper === 'wallpaper-sonoma' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'wallpaper-sonoma'">
+                        <div class="h-24 rounded-lg wallpaper-sonoma mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                            <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-white">Sonoma Dark</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-white">Sonoma Dark</span>
+                            <span x-show="currentWallpaper === 'wallpaper-sonoma'" class="text-xs text-accent font-bold">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Cyberpunk -->
+                    <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
+                         :class="currentWallpaper === 'wallpaper-cyberpunk' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'wallpaper-cyberpunk'">
+                        <div class="h-24 rounded-lg wallpaper-cyberpunk mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                            <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-pink-300">Cyberpunk Neon</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-white">Cyberpunk Neon</span>
+                            <span x-show="currentWallpaper === 'wallpaper-cyberpunk'" class="text-xs text-accent font-bold">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Retrowave -->
+                    <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
+                         :class="currentWallpaper === 'wallpaper-retrowave' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'wallpaper-retrowave'">
+                        <div class="h-24 rounded-lg wallpaper-retrowave mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                            <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-rose-300">Retrowave Sunset</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-white">Retrowave Sunset</span>
+                            <span x-show="currentWallpaper === 'wallpaper-retrowave'" class="text-xs text-accent font-bold">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Matrix Emerald -->
+                    <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
+                         :class="currentWallpaper === 'wallpaper-matrix' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
+                         @click="currentWallpaper = 'wallpaper-matrix'">
+                        <div class="h-24 rounded-lg wallpaper-matrix mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                            <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-green-400">Matrix Emerald</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-white">Matrix Emerald</span>
+                            <span x-show="currentWallpaper === 'wallpaper-matrix'" class="text-xs text-accent font-bold">Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white/5 rounded-xl border border-white/10 text-xs text-gray-300 flex items-center justify-between">
+                    <span>Pro-tip: You can also change themes directly from Terminal using <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">wallpaper 1..4</code> or <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">theme cyberpunk</code>!</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Music Player Window -->
         <div class="absolute bottom-24 right-8 w-80 bg-[#1e2330] rounded-3xl shadow-2xl overflow-hidden os-window border border-white/10"
              id="music-window" x-show="windows.music.open" x-transition x-on:mousedown="bringToFront('music')" :style="'z-index: ' + windows.music.z" x-cloak x-draggable>
@@ -510,6 +601,13 @@
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Lofi Player</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.music.open" x-cloak></div>
             </button>
+
+            <!-- Preferences App -->
+            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('preferences')">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Settings</span>
+                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.preferences.open" x-cloak></div>
+            </button>
             
             <div class="w-px h-10 bg-white/20 mx-1"></div>
             
@@ -584,8 +682,11 @@
                     aichat: { open: true, z: 11 },
                     projectPreview: { open: false, z: 12 },
                     notes: { open: false, z: 13 },
-                    music: { open: false, z: 14 }
+                    music: { open: false, z: 14 },
+                    preferences: { open: false, z: 15 }
                 },
+                currentWallpaper: 'wallpaper-sonoma',
+                termInput: '',
                 contactForm: { name: '', email: '', message: '' },
                 contactSending: false,
                 contactSuccess: false,
@@ -731,6 +832,125 @@
                     };
                     
                     typeNext();
+                },
+                handleTerminalCommand() {
+                    const raw = this.termInput.trim();
+                    if (!raw) return;
+                    this.termInput = '';
+                    
+                    const el = document.getElementById('typed-output');
+                    if (!el) return;
+
+                    const command = raw.toLowerCase();
+                    const escaped = raw.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    
+                    let responseHtml = '';
+
+                    if (command === 'clear') {
+                        el.innerHTML = '';
+                        return;
+                    } else if (command === 'neofetch' || command === 'fetch') {
+                        const wallName = this.currentWallpaper.replace('wallpaper-', '').toUpperCase();
+                        responseHtml = `
+<div class="flex flex-col sm:flex-row items-start space-x-0 sm:space-x-4 my-2 text-xs font-mono">
+<pre class="text-cyan-400 font-bold leading-tight hidden sm:block">
+  ██████╗  █████╗ ███╗   ██╗ █████╗ ███╗   ██╗ ██████╗ 
+  ██╔══██╗██╔══██╗████╗  ██║██╔══██╗████╗  ██║██╔════╝ 
+  ██║  ██║███████║██╔██╗ ██║███████║██╔██╗ ██║██║  ███╗
+  ██║  ██║██╔══██║██║╚██╗██║██╔══██║██║╚██╗██║██║   ██║
+  ██████╔╝██║  ██║██║ ╚████║██║  ██║██║ ╚████║╚██████╔╝
+  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═══╝ ╚═════╝ 
+</pre>
+<div class="text-gray-200 space-y-0.5">
+<span class="text-emerald-400 font-bold">danang@portfolio</span><br>
+----------------<br>
+<span class="text-blue-400 font-bold">OS:</span> DanangOS v2.0.0 (Mac OS Clone)<br>
+<span class="text-blue-400 font-bold">Kernel:</span> Alpine.js 3.x / Tailwind CSS v4<br>
+<span class="text-blue-400 font-bold">Framework:</span> Laravel 11 / Filament Admin<br>
+<span class="text-blue-400 font-bold">Wallpaper:</span> <span class="text-yellow-400 font-bold">${wallName}</span><br>
+<span class="text-blue-400 font-bold">Stack:</span> PHP, JavaScript, MySQL, Tailwind, Alpine<br>
+<span class="text-blue-400 font-bold">Status:</span> <span class="text-emerald-400 font-bold">Available for hire / opportunities</span><br>
+<div class="flex space-x-1 mt-2">
+<span class="w-3 h-3 bg-red-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-green-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-yellow-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-blue-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-purple-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-pink-500 rounded-sm inline-block"></span>
+</div>
+</div>
+</div>`;
+                    } else if (command === 'help') {
+                        responseHtml = `
+<div class="text-gray-300 my-1 text-xs font-mono space-y-1">
+<div class="text-accent font-bold">Available Commands:</div>
+<div><span class="text-yellow-400 font-bold">neofetch</span> - Display system specifications & logo</div>
+<div><span class="text-yellow-400 font-bold">theme &lt;name&gt;</span> - Change wallpaper (sonoma, cyberpunk, retrowave, matrix)</div>
+<div><span class="text-yellow-400 font-bold">wallpaper &lt;1-4&gt;</span> - Change wallpaper by index</div>
+<div><span class="text-yellow-400 font-bold">matrix</span> - Show digital rain ASCII effect</div>
+<div><span class="text-yellow-400 font-bold">whoami</span> - Display Danang's bio</div>
+<div><span class="text-yellow-400 font-bold">skills</span> - List core technical skills</div>
+<div><span class="text-yellow-400 font-bold">projects</span> - Open Projects window</div>
+<div><span class="text-yellow-400 font-bold">contact</span> - Open Contact window</div>
+<div><span class="text-yellow-400 font-bold">music</span> - Open Lofi Music Player</div>
+<div><span class="text-yellow-400 font-bold">pref</span> - Open System Preferences</div>
+<div><span class="text-yellow-400 font-bold">clear</span> - Clear terminal screen</div>
+</div>`;
+                    } else if (command.startsWith('theme ') || command.startsWith('wallpaper ')) {
+                        const arg = command.split(' ')[1];
+                        if (arg === '1' || arg === 'sonoma') {
+                            this.currentWallpaper = 'wallpaper-sonoma';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Sonoma Dark.</div>';
+                        } else if (arg === '2' || arg === 'cyberpunk') {
+                            this.currentWallpaper = 'wallpaper-cyberpunk';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Cyberpunk Neon.</div>';
+                        } else if (arg === '3' || arg === 'retrowave') {
+                            this.currentWallpaper = 'wallpaper-retrowave';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Retrowave Sunset.</div>';
+                        } else if (arg === '4' || arg === 'matrix') {
+                            this.currentWallpaper = 'wallpaper-matrix';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Matrix Emerald.</div>';
+                        } else {
+                            responseHtml = '<div class="text-red-400">Unknown theme. Available: sonoma, cyberpunk, retrowave, matrix (or 1..4)</div>';
+                        }
+                    } else if (command === 'matrix') {
+                        responseHtml = `
+<div class="text-emerald-400 font-mono text-xs my-2 leading-none">
+01000100 01000001 01001110 01000001 01001110 01000111 01001111 01010011<br>
+Wake up, Neo... The Matrix has you.<br>
+01000011 01001111 01000100 01001001 01001110 01000111 00100000 01010011 01001111 01000011 01001011 01010011<br>
+Follow the white rabbit. 🐇
+</div>`;
+                    } else if (command === 'whoami') {
+                        responseHtml = '<div class="text-gray-300 my-1">Danang Abu Hafid - Full Stack Developer & Information Systems Student.</div>';
+                    } else if (command === 'skills') {
+                        responseHtml = '<div class="text-gray-300 my-1">Laravel, Vue.js, React, Tailwind CSS, MySQL, Alpine.js, PHP, JavaScript, Git</div>';
+                    } else if (command === 'projects') {
+                        this.windows.projects.open = true;
+                        this.bringToFront('projects');
+                        responseHtml = '<div class="text-emerald-400">Opening Projects window...</div>';
+                    } else if (command === 'contact') {
+                        this.windows.contact.open = true;
+                        this.bringToFront('contact');
+                        responseHtml = '<div class="text-emerald-400">Opening Contact window...</div>';
+                    } else if (command === 'music') {
+                        this.windows.music.open = true;
+                        this.bringToFront('music');
+                        responseHtml = '<div class="text-emerald-400">Opening Music Player...</div>';
+                    } else if (command === 'pref' || command === 'settings' || command === 'preferences') {
+                        this.windows.preferences.open = true;
+                        this.bringToFront('preferences');
+                        responseHtml = '<div class="text-emerald-400">Opening System Preferences...</div>';
+                    } else {
+                        responseHtml = `<div class="text-red-400">zsh: command not found: ${escaped}. Type 'help' for available commands.</div>`;
+                    }
+
+                    el.innerHTML += `<br><br><span class="text-success">danang@portfolio:~$</span> ${escaped}<br>${responseHtml}`;
+                    
+                    this.$nextTick(() => {
+                        const termContainer = document.getElementById('terminal-content');
+                        if (termContainer) termContainer.scrollTop = termContainer.scrollHeight;
+                    });
                 },
                 updateTime() {
                     const now = new Date();
