@@ -191,8 +191,65 @@
                     DanangOS (v2.0.0) <br>
                     <span x-text="locale === 'en' ? 'Welcome to my developer portfolio!' : 'Selamat datang di portofolio interaktif saya!'"></span>
                 </div>
-                <!-- Bio Typing Output -->
                 <div class="text-white whitespace-pre-wrap leading-relaxed" id="typed-output"></div>
+            </div>
+        </div>
+
+        <!-- Interactive CLI Terminal Window -->
+        <div class="absolute top-14 left-24 w-[700px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
+             id="cli-window" x-show="windows.cli.open" x-transition x-on:mousedown="bringToFront('cli')" :style="'z-index: ' + windows.cli.z" x-cloak x-draggable>
+            <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
+                <div class="flex space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('cli')"></div>
+                    <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
+                    <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
+                </div>
+                <div class="mx-auto text-xs text-gray-400 font-mono">danang@portfolio: ~/cli (Interactive Commands)</div>
+            </div>
+            <div class="p-4 font-mono text-sm text-gray-300 flex-1 flex flex-col h-[460px]">
+                <!-- Quick Command Buttons Bar -->
+                <div class="flex flex-wrap items-center gap-2 pb-3 mb-3 border-b border-white/10 text-xs">
+                    <span class="text-gray-400 font-bold mr-1">Quick Action:</span>
+                    <button @click="runCliCommand('neofetch')" class="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded transition-colors flex items-center space-x-1">
+                        <span>⚡ neofetch</span>
+                    </button>
+                    <button @click="runCliCommand('matrix')" class="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded transition-colors flex items-center space-x-1">
+                        <span>🟢 matrix</span>
+                    </button>
+                    <button @click="runCliCommand('theme 2')" class="px-2.5 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 rounded transition-colors flex items-center space-x-1">
+                        <span>🎨 cyberpunk</span>
+                    </button>
+                    <button @click="runCliCommand('theme 1')" class="px-2.5 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/40 rounded transition-colors flex items-center space-x-1">
+                        <span>🌌 sonoma</span>
+                    </button>
+                    <button @click="runCliCommand('help')" class="px-2.5 py-1 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 rounded transition-colors flex items-center space-x-1">
+                        <span>❓ help</span>
+                    </button>
+                    <button @click="runCliCommand('clear')" class="px-2.5 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 rounded transition-colors flex items-center space-x-1">
+                        <span>🧹 clear</span>
+                    </button>
+                </div>
+
+                <!-- CLI Log Output Area -->
+                <div class="flex-1 overflow-y-auto pr-2" id="cli-output-log">
+                    <div class="text-xs text-gray-400 mb-2">
+                        DanangOS Interactive CLI (v2.0.0)<br>
+                        Click any action button above or type your command below.
+                    </div>
+                    <div x-html="cliLog" class="text-white whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- CLI Input Field -->
+                <div class="mt-3 flex items-center pt-2 border-t border-white/10">
+                    <span class="text-success mr-2 font-mono text-sm">danang@portfolio:~/cli$</span>
+                    <input type="text" 
+                           x-model="cliInput" 
+                           @keydown.enter="runCliCommand()" 
+                           class="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder-gray-500" 
+                           spellcheck="false" 
+                           autocomplete="off" 
+                           placeholder="click button above or type command...">
+                </div>
             </div>
         </div>
 
@@ -494,7 +551,7 @@
                 </div>
 
                 <div class="p-4 bg-white/5 rounded-xl border border-white/10 text-xs text-gray-300 flex items-center justify-between">
-                    <span>Pro-tip: Select any wallpaper card above to instantly apply the desktop background!</span>
+                    <span>Pro-tip: You can also change themes directly from Terminal using <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">wallpaper 1..4</code> or <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">theme cyberpunk</code>!</span>
                 </div>
             </div>
         </div>
@@ -788,18 +845,15 @@
                     if (!el) return;
                     el.innerHTML = '';
 
-                    const whoamiText = "Saya adalah seorang Web Developer dan mahasiswa Sistem Informasi yang memiliki minat besar terhadap pengembangan perangkat lunak dan teknologi web modern.\n\nBerbekal pengalaman sebagai Web Developer Intern di Kementerian Perdagangan Republik Indonesia, sertifikasi BNSP Junior Web Developer, serta pengalaman dalam organisasi dan kompetisi teknologi, saya terus berkomitmen untuk mengembangkan solusi digital yang berkualitas, efisien, dan berorientasi pada kebutuhan pengguna.\n\nSaya percaya bahwa setiap aplikasi yang baik tidak hanya dibangun dengan teknologi yang tepat, tetapi juga melalui pemahaman terhadap kebutuhan pengguna, perhatian terhadap detail, dan semangat untuk terus belajar mengikuti perkembangan industri.\n\nDi luar aktivitas pengembangan perangkat lunak, saya senang mengeksplorasi teknologi baru, membangun proyek pribadi, serta terus meningkatkan kemampuan agar dapat memberikan kontribusi yang lebih besar di dunia teknologi.";
-                    const whoamiEn = "I am a Web Developer and Information Systems student with a strong passion for software development and modern web technologies.\n\nWith experience as a Web Developer Intern at the Ministry of Trade of the Republic of Indonesia, a BNSP Junior Web Developer certification, and involvement in tech organizations and competitions, I am constantly committed to developing high-quality, efficient, and user-oriented digital solutions.\n\nI believe that every good application is built not only with the right technology but also through a deep understanding of user needs, attention to detail, and a passion for continuous learning in a fast-paced industry.\n\nOutside of software development, I enjoy exploring new technologies, building personal projects, and continuously improving my skills to make a greater impact in the tech world.";
+                    const whoamiId = "Saya adalah seorang Web Developer dan mahasiswa Sistem Informasi yang memiliki minat besar terhadap pengembangan perangkat lunak dan teknologi web modern.<br><br>Berbekal pengalaman sebagai Web Developer Intern di Kementerian Perdagangan Republik Indonesia, sertifikasi BNSP Junior Web Developer, serta pengalaman dalam organisasi dan kompetisi teknologi, saya terus berkomitmen untuk mengembangkan solusi digital yang berkualitas, efisien, dan berorientasi pada kebutuhan pengguna.<br><br>Saya percaya bahwa setiap aplikasi yang baik tidak hanya dibangun dengan teknologi yang tepat, tetapi juga melalui pemahaman terhadap kebutuhan pengguna, perhatian terhadap detail, dan semangat untuk terus belajar mengikuti perkembangan industri.<br><br>Di luar aktivitas pengembangan perangkat lunak, saya senang mengeksplorasi teknologi baru, membangun proyek pribadi, serta terus meningkatkan kemampuan agar dapat memberikan kontribusi yang lebih besar di dunia teknologi.";
+                    const whoamiEn = "I am a Web Developer and Information Systems student with a strong passion for software development and modern web technologies.<br><br>With experience as a Web Developer Intern at the Ministry of Trade of the Republic of Indonesia, a BNSP Junior Web Developer certification, and involvement in tech organizations and competitions, I am constantly committed to developing high-quality, efficient, and user-oriented digital solutions.<br><br>I believe that every good application is built not only with the right technology but also through a deep understanding of user needs, attention to detail, and a passion for continuous learning in a fast-paced industry.<br><br>Outside of software development, I enjoy exploring new technologies, building personal projects, and continuously improving my skills to make a greater impact in the tech world.";
                     
-                    const bioText = this.locale === 'en' ? whoamiEn : whoamiText;
-
                     const commands = [
-                        { cmd: 'whoami', out: bioText },
+                        { cmd: 'whoami', out: this.locale === 'en' ? whoamiEn : whoamiId },
                         { cmd: 'skills', out: 'Laravel, Vue, React, Tailwind, MySQL' },
                         { cmd: './explore.sh', out: this.locale === 'en' ? 'Click the apps in the dock to explore.' : 'Klik aplikasi di dock untuk menjelajah.' }
                     ];
                     
-                    let renderedHtml = '';
                     let cmdIndex = 0;
                     let charIndex = 0;
                     let isTypingOutput = false;
@@ -807,134 +861,163 @@
                     const typeNext = () => {
                         if (cmdIndex >= commands.length) return;
                         
-                        const item = commands[cmdIndex];
+                        if (charIndex === 0 && !isTypingOutput) {
+                            el.innerHTML += (cmdIndex > 0 ? '<br><br>' : '') + '<span class="text-success">danang@portfolio:~$</span> ';
+                        }
                         
-                        if (!isTypingOutput) {
-                            // Typing command
-                            if (charIndex < item.cmd.length) {
+                        const currentText = isTypingOutput ? commands[cmdIndex].out : commands[cmdIndex].cmd;
+                        
+                        if (charIndex < currentText.length) {
+                            // Check for HTML tags like <br><br> in the output so it doesn't print < and b separately
+                            if (isTypingOutput && currentText.substring(charIndex, charIndex + 4) === '<br>') {
+                                el.innerHTML += '<br>';
+                                charIndex += 4;
+                            } else {
+                                el.innerHTML += currentText.charAt(charIndex);
                                 charIndex++;
-                                const currentCmdText = item.cmd.substring(0, charIndex);
-                                const promptPrefix = cmdIndex > 0 ? '<br><br>' : '';
-                                el.innerHTML = renderedHtml + promptPrefix + '<span class="text-success">danang@portfolio:~$</span> ' + currentCmdText;
-                                this.typedInterval = setTimeout(typeNext, 40);
-                            } else {
-                                // Done typing command
-                                const promptPrefix = cmdIndex > 0 ? '<br><br>' : '';
-                                renderedHtml += promptPrefix + '<span class="text-success">danang@portfolio:~$</span> ' + item.cmd + '<br>';
-                                isTypingOutput = true;
-                                charIndex = 0;
-                                this.typedInterval = setTimeout(typeNext, 300);
                             }
+                            
+                            // Commands are typed faster, output is typed slower
+                            const delay = isTypingOutput ? (20 + Math.random() * 20) : (40 + Math.random() * 40);
+                            this.typedInterval = setTimeout(typeNext, delay);
                         } else {
-                            // Typing output
-                            if (charIndex < item.out.length) {
-                                charIndex += 3;
-                                const currentOutText = item.out.substring(0, charIndex).replace(/\n/g, '<br>');
-                                el.innerHTML = renderedHtml + '<span class="text-gray-300">' + currentOutText + '</span>';
-                                this.typedInterval = setTimeout(typeNext, 15);
+                            if (!isTypingOutput) {
+                                // Done typing command, wait a bit then start typing output
+                                this.typedInterval = setTimeout(() => {
+                                    el.innerHTML += '<br><span class="text-gray-300">';
+                                    isTypingOutput = true;
+                                    charIndex = 0;
+                                    typeNext();
+                                }, 300);
                             } else {
-                                // Done typing output
-                                const finalOutText = item.out.replace(/\n/g, '<br>');
-                                renderedHtml += '<span class="text-gray-300">' + finalOutText + '</span>';
-                                el.innerHTML = renderedHtml;
+                                // Done typing output, close span and wait before next command
+                                el.innerHTML += '</span>';
                                 isTypingOutput = false;
                                 cmdIndex++;
                                 charIndex = 0;
-                                this.typedInterval = setTimeout(typeNext, 500);
+                                this.typedInterval = setTimeout(typeNext, 800);
                             }
                         }
                     };
                     
                     typeNext();
                 },
-                runCliCommand(cmd = null) {
-                    let commandStr = (typeof cmd === 'string' && cmd.trim() !== '') 
-                        ? cmd.trim() 
-                        : this.cliInput.trim();
-                        
-                    if (!commandStr) return;
+                runCliCommand(overrideCmd = null) {
+                    const raw = overrideCmd !== null ? overrideCmd : this.cliInput.trim();
+                    if (!raw) return;
+                    if (overrideCmd === null) this.cliInput = '';
                     
-                    if (typeof cmd !== 'string') {
-                        this.cliInput = '';
-                    }
-
-                    const command = commandStr.toLowerCase();
-                    const logEl = document.getElementById('cli-output-log');
-                    const appendTarget = document.getElementById('cli-dynamic-append') || logEl;
-                    if (!logEl) return;
+                    const command = raw.toLowerCase();
+                    const escaped = raw.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    
+                    let responseHtml = '';
 
                     if (command === 'clear') {
-                        if (appendTarget) appendTarget.innerHTML = '';
+                        this.cliLog = '';
                         return;
-                    }
-
-                    let output = '';
-
-                    if (command === 'neofetch' || command === 'fetch') {
+                    } else if (command === 'neofetch' || command === 'fetch') {
                         const wallName = (this.currentWallpaper || 'sonoma').toUpperCase();
-                        output = `
-                            <div class="my-2 p-3 bg-black/50 rounded border border-cyan-500/30 font-mono text-xs">
-                                <div class="text-cyan-400 font-bold mb-2">⚡ DanangOS System Info (neofetch)</div>
-                                <div class="grid grid-cols-2 gap-2 text-gray-200">
-                                    <div><span class="text-blue-400 font-bold">OS:</span> DanangOS v2.0.0</div>
-                                    <div><span class="text-blue-400 font-bold">Kernel:</span> Alpine 3.x / Tailwind v4</div>
-                                    <div><span class="text-blue-400 font-bold">Framework:</span> Laravel 11</div>
-                                    <div><span class="text-blue-400 font-bold">Wallpaper:</span> <span class="text-yellow-400 font-bold">${wallName}</span></div>
-                                    <div><span class="text-blue-400 font-bold">Status:</span> <span class="text-emerald-400 font-bold">Available</span></div>
-                                    <div><span class="text-blue-400 font-bold">Stack:</span> PHP, JS, MySQL, Git</div>
-                                </div>
-                            </div>`;
+                        responseHtml = `
+<div class="flex flex-col sm:flex-row items-start space-x-0 sm:space-x-4 my-2 text-xs font-mono">
+<pre class="text-cyan-400 font-bold leading-tight hidden sm:block">
+  ██████╗  █████╗ ███╗   ██╗ █████╗ ███╗   ██╗ ██████╗ 
+  ██╔══██╗██╔══██╗████╗  ██║██╔══██╗████╗  ██║██╔════╝ 
+  ██║  ██║███████║██╔██╗ ██║███████║██╔██╗ ██║██║  ███╗
+  ██║  ██║██╔══██║██║╚██╗██║██╔══██║██║╚██╗██║██║   ██║
+  ██████╔╝██║  ██║██║ ╚████║██║  ██║██║ ╚████║╚██████╔╝
+  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═══╝ ╚═════╝ 
+</pre>
+<div class="text-gray-200 space-y-0.5">
+<span class="text-emerald-400 font-bold">danang@portfolio</span><br>
+----------------<br>
+<span class="text-blue-400 font-bold">OS:</span> DanangOS v2.0.0 (Mac OS Clone)<br>
+<span class="text-blue-400 font-bold">Kernel:</span> Alpine.js 3.x / Tailwind CSS v4<br>
+<span class="text-blue-400 font-bold">Framework:</span> Laravel 11 / Filament Admin<br>
+<span class="text-blue-400 font-bold">Wallpaper:</span> <span class="text-yellow-400 font-bold">${wallName}</span><br>
+<span class="text-blue-400 font-bold">Stack:</span> PHP, JavaScript, MySQL, Tailwind, Alpine<br>
+<span class="text-blue-400 font-bold">Status:</span> <span class="text-emerald-400 font-bold">Available for hire / opportunities</span><br>
+<div class="flex space-x-1 mt-2">
+<span class="w-3 h-3 bg-red-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-green-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-yellow-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-blue-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-purple-500 rounded-sm inline-block"></span>
+<span class="w-3 h-3 bg-pink-500 rounded-sm inline-block"></span>
+</div>
+</div>
+</div>`;
                     } else if (command === 'help') {
-                        output = `
-                            <div class="my-2 p-3 bg-black/50 rounded border border-yellow-500/30 text-xs space-y-1">
-                                <div class="text-yellow-400 font-bold mb-1">Available Commands:</div>
-                                <div><span class="text-cyan-300 font-bold">neofetch</span> - System specs</div>
-                                <div><span class="text-cyan-300 font-bold">theme &lt;name&gt;</span> - Change wallpaper (sonoma, cyberpunk, retrowave, matrix)</div>
-                                <div><span class="text-cyan-300 font-bold">matrix</span> - Digital rain effect</div>
-                                <div><span class="text-cyan-300 font-bold">whoami</span> - Bio</div>
-                                <div><span class="text-cyan-300 font-bold">skills</span> - Tech skills</div>
-                                <div><span class="text-cyan-300 font-bold">clear</span> - Clear CLI log</div>
-                            </div>`;
+                        responseHtml = `
+<div class="text-gray-300 my-1 text-xs font-mono space-y-1">
+<div class="text-accent font-bold">Available Commands:</div>
+<div><span class="text-yellow-400 font-bold">neofetch</span> - Display system specifications & logo</div>
+<div><span class="text-yellow-400 font-bold">theme &lt;name&gt;</span> - Change wallpaper (sonoma, cyberpunk, retrowave, matrix)</div>
+<div><span class="text-yellow-400 font-bold">wallpaper &lt;1-4&gt;</span> - Change wallpaper by index</div>
+<div><span class="text-yellow-400 font-bold">matrix</span> - Show digital rain ASCII effect</div>
+<div><span class="text-yellow-400 font-bold">whoami</span> - Display Danang's bio</div>
+<div><span class="text-yellow-400 font-bold">skills</span> - List core technical skills</div>
+<div><span class="text-yellow-400 font-bold">projects</span> - Open Projects window</div>
+<div><span class="text-yellow-400 font-bold">contact</span> - Open Contact window</div>
+<div><span class="text-yellow-400 font-bold">music</span> - Open Lofi Music Player</div>
+<div><span class="text-yellow-400 font-bold">pref</span> - Open System Preferences</div>
+<div><span class="text-yellow-400 font-bold">clear</span> - Clear CLI log output</div>
+</div>`;
                     } else if (command.startsWith('theme ') || command.startsWith('wallpaper ')) {
                         const arg = command.split(' ')[1];
                         if (arg === '1' || arg === 'sonoma') {
                             this.currentWallpaper = 'sonoma';
-                            output = '<div class="text-blue-400 font-bold my-1">✓ Wallpaper changed to Sonoma Dark.</div>';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Sonoma Dark.</div>';
                         } else if (arg === '2' || arg === 'cyberpunk') {
                             this.currentWallpaper = 'cyberpunk';
-                            output = '<div class="text-purple-400 font-bold my-1">✓ Wallpaper changed to Cyberpunk Neon.</div>';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Cyberpunk Neon.</div>';
                         } else if (arg === '3' || arg === 'retrowave') {
                             this.currentWallpaper = 'retrowave';
-                            output = '<div class="text-rose-400 font-bold my-1">✓ Wallpaper changed to Retrowave Sunset.</div>';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Retrowave Sunset.</div>';
                         } else if (arg === '4' || arg === 'matrix') {
                             this.currentWallpaper = 'matrix';
-                            output = '<div class="text-emerald-400 font-bold my-1">✓ Wallpaper changed to Matrix Emerald.</div>';
+                            responseHtml = '<div class="text-emerald-400">Wallpaper changed to Matrix Emerald.</div>';
                         } else {
-                            output = '<div class="text-red-400 my-1">Unknown theme. Try: sonoma, cyberpunk, retrowave, matrix.</div>';
+                            responseHtml = '<div class="text-red-400">Unknown theme. Available: sonoma, cyberpunk, retrowave, matrix (or 1..4)</div>';
                         }
                     } else if (command === 'matrix') {
-                        output = `
-                            <div class="my-2 p-3 bg-black text-emerald-400 font-mono text-xs rounded border border-emerald-500/40">
-                                01000100 01000001 01001110 01000001 01001110 01000111 01001111 01010011<br>
-                                Wake up, Neo... The Matrix has you. 🐇<br>
-                                01000011 01001111 01000100 01001001 01001110 01000111 00100000 01010011
-                            </div>`;
+                        responseHtml = `
+<div class="text-emerald-400 font-mono text-xs my-2 leading-none">
+01000100 01000001 01001110 01000001 01001110 01000111 01001111 01010011<br>
+Wake up, Neo... The Matrix has you.<br>
+01000011 01001111 01000100 01001001 01001110 01000111 00100000 01010011 01001111 01000011 01001011 01010011<br>
+Follow the white rabbit. 🐇
+</div>`;
                     } else if (command === 'whoami') {
-                        output = '<div class="text-gray-200 my-1">Danang Abu Hafid - Full Stack Developer & Information Systems Student.</div>';
+                        responseHtml = '<div class="text-gray-300 my-1">Danang Abu Hafid - Full Stack Developer & Information Systems Student.</div>';
                     } else if (command === 'skills') {
-                        output = '<div class="text-gray-200 my-1">Laravel, Vue.js, React, Tailwind CSS, MySQL, Alpine.js, PHP, JS, Git</div>';
+                        responseHtml = '<div class="text-gray-300 my-1">Laravel, Vue.js, React, Tailwind CSS, MySQL, Alpine.js, PHP, JavaScript, Git</div>';
+                    } else if (command === 'projects') {
+                        this.windows.projects.open = true;
+                        this.bringToFront('projects');
+                        responseHtml = '<div class="text-emerald-400">Opening Projects window...</div>';
+                    } else if (command === 'contact') {
+                        this.windows.contact.open = true;
+                        this.bringToFront('contact');
+                        responseHtml = '<div class="text-emerald-400">Opening Contact window...</div>';
+                    } else if (command === 'music') {
+                        this.windows.music.open = true;
+                        this.bringToFront('music');
+                        responseHtml = '<div class="text-emerald-400">Opening Music Player...</div>';
+                    } else if (command === 'pref' || command === 'settings' || command === 'preferences') {
+                        this.windows.preferences.open = true;
+                        this.bringToFront('preferences');
+                        responseHtml = '<div class="text-emerald-400">Opening System Preferences...</div>';
                     } else {
-                        output = `<div class="text-red-400 my-1">zsh: command not found: ${commandStr}</div>`;
+                        responseHtml = `<div class="text-red-400">zsh: command not found: ${escaped}. Type 'help' or click quick buttons above.</div>`;
                     }
 
-                    const item = document.createElement('div');
-                    item.className = 'mt-2 pt-2 border-t border-white/10';
-                    item.innerHTML = `<div class="text-xs text-emerald-400 font-bold mb-1">danang@portfolio:~$ ${commandStr}</div>${output}`;
+                    const prefix = this.cliLog ? '<br><br>' : '';
+                    this.cliLog += `${prefix}<span class="text-success">danang@portfolio:~/cli$</span> ${escaped}<br>${responseHtml}`;
                     
-                    appendTarget.appendChild(item);
-                    setTimeout(() => {
-                        logEl.scrollTop = logEl.scrollHeight;
-                    }, 50);
+                    this.$nextTick(() => {
+                        const termContainer = document.getElementById('cli-output-log');
+                        if (termContainer) termContainer.scrollTop = termContainer.scrollHeight;
+                    });
                 },
                 updateTime() {
                     const now = new Date();
