@@ -15,14 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Admin User',
-            'username' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password')
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'Admin User',
+                'username' => 'admin',
+                'password' => bcrypt('password')
+            ]
+        );
 
         $this->call(DummyDataSeeder::class);
     }
