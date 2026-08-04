@@ -44,9 +44,11 @@
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
 
     <style>
-        .window-drag-handle { cursor: grab; }
+        .window-drag-handle { cursor: grab; touch-action: none; }
         .window-drag-handle:active { cursor: grabbing; }
         [x-cloak] { display: none !important; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-primary text-white font-sans antialiased h-screen w-screen overflow-hidden flex flex-col relative transition-all duration-700" 
@@ -133,60 +135,60 @@
     </div>
 
     <!-- Desktop Area -->
-    <main class="flex-1 relative p-4 sm:p-8 z-10 overflow-hidden" id="desktop-area">
+    <main class="flex-1 relative p-2 sm:p-8 z-10 overflow-hidden" id="desktop-area">
         
         <!-- Desktop Icons -->
-        <div class="absolute top-4 left-4 flex flex-col space-y-6 z-0">
-            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('projects')" @click.stop>
-                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
-                    <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+        <div class="absolute top-2 left-2 sm:top-4 sm:left-4 flex flex-row sm:flex-col space-x-1 sm:space-x-0 sm:space-y-6 z-0 overflow-x-auto max-w-[calc(100vw-1rem)] no-scrollbar">
+            <div class="flex flex-col items-center w-16 sm:w-20 cursor-pointer group flex-shrink-0" @click="toggleWindow('projects')" @click.stop>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded">Projects</span>
+                <span class="text-[10px] sm:text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded">Projects</span>
             </div>
-            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('terminal')" @click.stop>
-                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
-                    <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <div class="flex flex-col items-center w-16 sm:w-20 cursor-pointer group flex-shrink-0" @click="toggleWindow('terminal')" @click.stop>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded">Terminal</span>
+                <span class="text-[10px] sm:text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded">Terminal</span>
             </div>
-            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('notes')" @click.stop>
-                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
-                    <svg class="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <div class="flex flex-col items-center w-16 sm:w-20 cursor-pointer group flex-shrink-0" @click="toggleWindow('notes')" @click.stop>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 </div>
-                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded">Notes</span>
+                <span class="text-[10px] sm:text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded">Notes</span>
             </div>
-            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('music')" @click.stop>
-                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
-                    <svg class="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+            <div class="flex flex-col items-center w-16 sm:w-20 cursor-pointer group flex-shrink-0" @click="toggleWindow('music')" @click.stop>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
                 </div>
-                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Lofi Player</span>
+                <span class="text-[10px] sm:text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Lofi Player</span>
             </div>
-            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('preferences')" @click.stop>
-                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
-                    <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <div class="flex flex-col items-center w-16 sm:w-20 cursor-pointer group flex-shrink-0" @click="toggleWindow('preferences')" @click.stop>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
-                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Settings</span>
+                <span class="text-[10px] sm:text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">Settings</span>
             </div>
-            <div class="flex flex-col items-center w-20 cursor-pointer group" @dblclick="toggleWindow('cli')" @click.stop>
-                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
-                    <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <div class="flex flex-col items-center w-16 sm:w-20 cursor-pointer group flex-shrink-0" @click="toggleWindow('cli')" @click.stop>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/20 shadow-lg">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <span class="text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">System CLI</span>
+                <span class="text-[10px] sm:text-xs mt-1 text-white text-center font-medium drop-shadow-md bg-black/40 px-1 rounded whitespace-nowrap">System CLI</span>
             </div>
         </div>
         
         <!-- Terminal Window (About Me Bio) -->
-        <div class="absolute top-10 left-10 w-[640px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
-             id="terminal-window" x-show="windows.terminal.open" x-transition x-on:mousedown="bringToFront('terminal')" :style="'z-index: ' + windows.terminal.z" x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-10 sm:left-10 sm:right-auto w-auto sm:w-[640px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
+             id="terminal-window" x-show="windows.terminal.open" x-transition x-on:mousedown="bringToFront('terminal')" x-on:touchstart="bringToFront('terminal')" :style="'z-index: ' + windows.terminal.z" x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('terminal')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">danang@portfolio: ~ (About Me)</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">danang@portfolio: ~ (About Me)</div>
             </div>
-            <div class="p-5 font-mono text-sm text-gray-300 flex-1 overflow-y-auto h-[440px]" id="terminal-content">
+            <div class="p-3 sm:p-5 font-mono text-xs sm:text-sm text-gray-300 flex-1 overflow-y-auto h-[55vh] sm:h-[440px]" id="terminal-content">
                 <div class="mb-4 text-xs text-gray-400">
                     DanangOS (v2.0.0) <br>
                     <span x-text="locale === 'en' ? 'Welcome to my developer portfolio!' : 'Selamat datang di portofolio interaktif saya!'"></span>
@@ -196,36 +198,36 @@
         </div>
 
         <!-- Interactive CLI Terminal Window -->
-        <div class="absolute top-14 left-24 w-[700px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
-             id="cli-window" x-show="windows.cli.open" x-transition x-on:mousedown="bringToFront('cli')" :style="'z-index: ' + windows.cli.z" x-cloak x-draggable>
+        <div class="absolute top-16 left-2 right-2 sm:top-14 sm:left-24 sm:right-auto w-auto sm:w-[700px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
+             id="cli-window" x-show="windows.cli.open" x-transition x-on:mousedown="bringToFront('cli')" x-on:touchstart="bringToFront('cli')" :style="'z-index: ' + windows.cli.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('cli')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">danang@portfolio: ~/cli (Interactive Commands)</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">danang@portfolio: ~/cli (Interactive Commands)</div>
             </div>
-            <div class="p-4 font-mono text-sm text-gray-300 flex-1 flex flex-col h-[460px]">
+            <div class="p-3 sm:p-4 font-mono text-xs sm:text-sm text-gray-300 flex-1 flex flex-col h-[55vh] sm:h-[460px]">
                 <!-- Quick Command Buttons Bar -->
-                <div class="flex flex-wrap items-center gap-2 pb-3 mb-3 border-b border-white/10 text-xs">
-                    <span class="text-gray-400 font-bold mr-1">Quick Action:</span>
-                    <button @click="runCliCommand('neofetch')" class="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded transition-colors flex items-center space-x-1">
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 pb-3 mb-3 border-b border-white/10 text-xs">
+                    <span class="text-gray-400 font-bold mr-1 text-[11px] sm:text-xs">Quick Action:</span>
+                    <button @click="runCliCommand('neofetch')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded transition-colors flex items-center space-x-1 text-[11px] sm:text-xs">
                         <span>⚡ neofetch</span>
                     </button>
-                    <button @click="runCliCommand('matrix')" class="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded transition-colors flex items-center space-x-1">
+                    <button @click="runCliCommand('matrix')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded transition-colors flex items-center space-x-1 text-[11px] sm:text-xs">
                         <span>🟢 matrix</span>
                     </button>
-                    <button @click="runCliCommand('theme 2')" class="px-2.5 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 rounded transition-colors flex items-center space-x-1">
+                    <button @click="runCliCommand('theme 2')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 rounded transition-colors flex items-center space-x-1 text-[11px] sm:text-xs">
                         <span>🎨 cyberpunk</span>
                     </button>
-                    <button @click="runCliCommand('theme 1')" class="px-2.5 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/40 rounded transition-colors flex items-center space-x-1">
+                    <button @click="runCliCommand('theme 1')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/40 rounded transition-colors flex items-center space-x-1 text-[11px] sm:text-xs">
                         <span>🌌 sonoma</span>
                     </button>
-                    <button @click="runCliCommand('help')" class="px-2.5 py-1 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 rounded transition-colors flex items-center space-x-1">
+                    <button @click="runCliCommand('help')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/40 rounded transition-colors flex items-center space-x-1 text-[11px] sm:text-xs">
                         <span>❓ help</span>
                     </button>
-                    <button @click="runCliCommand('clear')" class="px-2.5 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 rounded transition-colors flex items-center space-x-1">
+                    <button @click="runCliCommand('clear')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 rounded transition-colors flex items-center space-x-1 text-[11px] sm:text-xs">
                         <span>🧹 clear</span>
                     </button>
                 </div>
@@ -241,11 +243,11 @@
 
                 <!-- CLI Input Field -->
                 <div class="mt-3 flex items-center pt-2 border-t border-white/10">
-                    <span class="text-success mr-2 font-mono text-sm">danang@portfolio:~/cli$</span>
+                    <span class="text-success mr-2 font-mono text-xs sm:text-sm">danang@portfolio:~/cli$</span>
                     <input type="text" 
                            x-model="cliInput" 
                            @keydown.enter="runCliCommand()" 
-                           class="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder-gray-500" 
+                           class="flex-1 bg-transparent border-none outline-none text-white font-mono text-xs sm:text-sm placeholder-gray-500" 
                            spellcheck="false" 
                            autocomplete="off" 
                            placeholder="click button above or type command...">
@@ -254,17 +256,17 @@
         </div>
 
         <!-- AI Terminal Window -->
-        <div class="absolute top-16 right-8 w-[500px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="aichat-window" x-show="windows.aichat.open" x-transition x-on:mousedown="bringToFront('aichat')" :style="'z-index: ' + windows.aichat.z" x-cloak x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-16 sm:right-8 sm:left-auto w-auto sm:w-[500px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="aichat-window" x-show="windows.aichat.open" x-transition x-on:mousedown="bringToFront('aichat')" x-on:touchstart="bringToFront('aichat')" :style="'z-index: ' + windows.aichat.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('aichat')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-blue-400 font-mono">Danang AI Assistant</div>
+                <div class="mx-auto text-xs text-blue-400 font-mono truncate px-2">Danang AI Assistant</div>
             </div>
-            <div class="p-4 font-mono text-sm text-gray-300 flex-1 overflow-y-auto h-[400px] max-h-[400px]" id="aichat-content">
+            <div class="p-3 sm:p-4 font-mono text-xs sm:text-sm text-gray-300 flex-1 overflow-y-auto h-[55vh] sm:h-[400px] max-h-[55vh] sm:max-h-[400px]" id="aichat-content">
                 <div class="mb-4 text-blue-400">
                     Danang AI System (Connected)<br>
                     <span x-text="locale === 'en' ? 'Hello! I am Danang\'s professional AI assistant. How can I help you today?' : 'Halo! Saya asisten AI profesional milik Danang. Ada yang bisa saya bantu?'"></span>
@@ -289,56 +291,55 @@
         </div>
 
         <!-- Projects Finder Window -->
-        <div class="absolute top-20 left-40 w-[800px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="projects-window" x-show="windows.projects.open" x-transition x-on:mousedown="bringToFront('projects')" :style="'z-index: ' + windows.projects.z" x-cloak x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-20 sm:left-32 sm:right-auto w-auto sm:w-[800px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="projects-window" x-show="windows.projects.open" x-transition x-on:mousedown="bringToFront('projects')" x-on:touchstart="bringToFront('projects')" :style="'z-index: ' + windows.projects.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('projects')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">Projects - Finder</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">Projects - Finder</div>
             </div>
-            <div class="p-6 overflow-y-auto h-[500px] bg-slate-900/50">
-                <h2 class="text-2xl font-bold mb-4" x-text="locale === 'en' ? 'My Projects' : 'Proyek Saya'"></h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 sm:p-6 overflow-y-auto h-[60vh] sm:h-[500px] bg-slate-900/50">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4" x-text="locale === 'en' ? 'My Projects' : 'Proyek Saya'"></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     @forelse($projects as $project)
-                        <div class="bg-primary border border-white/10 rounded-lg p-4 hover:border-accent transition-colors cursor-pointer" @click="openProjectPreview({{ $project->id }})">
-                            <h3 class="font-bold text-lg text-accent" x-text='locale === "en" ? @json($project->title_en ?? $project->title_id) : @json($project->title_id ?? $project->title_en)'></h3>
-                            <p class="text-sm text-gray-400 mt-2" x-text='locale === "en" ? @json(Str::limit($project->description_en ?? $project->description_id, 100)) : @json(Str::limit($project->description_id ?? $project->description_en, 100))'></p>
+                        <div class="bg-primary border border-white/10 rounded-lg p-3 sm:p-4 hover:border-accent transition-colors cursor-pointer" @click="openProjectPreview({{ $project->id }})">
+                            <h3 class="font-bold text-base sm:text-lg text-accent" x-text='locale === "en" ? @json($project->title_en ?? $project->title_id) : @json($project->title_id ?? $project->title_en)'></h3>
+                            <p class="text-xs sm:text-sm text-gray-400 mt-2" x-text='locale === "en" ? @json(Str::limit($project->description_en ?? $project->description_id, 100)) : @json(Str::limit($project->description_id ?? $project->description_en, 100))'></p>
                         </div>
                     @empty
                         <div class="text-gray-500 text-sm" x-text="locale === 'en' ? 'No projects available yet.' : 'Belum ada proyek.'"></div>
                     @endforelse
                 </div>
             </div>
-            </div>
         </div>
         
         <!-- Project Preview Window -->
-        <div class="absolute top-24 left-[20%] w-[700px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="project-preview-window" x-show="windows.projectPreview.open" x-transition x-on:mousedown="bringToFront('projectPreview')" :style="'z-index: ' + windows.projectPreview.z" x-cloak x-draggable>
+        <div class="absolute top-16 left-2 right-2 sm:top-24 sm:left-[20%] sm:right-auto w-auto sm:w-[700px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="project-preview-window" x-show="windows.projectPreview.open" x-transition x-on:mousedown="bringToFront('projectPreview')" x-on:touchstart="bringToFront('projectPreview')" :style="'z-index: ' + windows.projectPreview.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('projectPreview')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">Preview - <span x-text="selectedProject ? (locale === 'en' ? (selectedProject.title_en || selectedProject.title_id) : (selectedProject.title_id || selectedProject.title_en)) : ''"></span></div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">Preview - <span x-text="selectedProject ? (locale === 'en' ? (selectedProject.title_en || selectedProject.title_id) : (selectedProject.title_id || selectedProject.title_en)) : ''"></span></div>
             </div>
-            <div class="p-0 overflow-y-auto h-[500px] bg-slate-900/90" x-show="selectedProject">
+            <div class="p-0 overflow-y-auto h-[60vh] sm:h-[500px] bg-slate-900/90" x-show="selectedProject">
                 <template x-if="selectedProject && selectedProject.image">
-                    <img :src="`/storage/${selectedProject.image}`" class="w-full h-64 object-cover border-b border-white/10" alt="Project Image">
+                    <img :src="`/storage/${selectedProject.image}`" class="w-full h-48 sm:h-64 object-cover border-b border-white/10" alt="Project Image">
                 </template>
-                <div class="p-6">
-                    <h2 class="text-3xl font-bold mb-2 text-white" x-text="selectedProject ? (locale === 'en' ? (selectedProject.title_en || selectedProject.title_id) : (selectedProject.title_id || selectedProject.title_en)) : ''"></h2>
+                <div class="p-4 sm:p-6">
+                    <h2 class="text-xl sm:text-3xl font-bold mb-2 text-white" x-text="selectedProject ? (locale === 'en' ? (selectedProject.title_en || selectedProject.title_id) : (selectedProject.title_id || selectedProject.title_en)) : ''"></h2>
                     <template x-if="selectedProject && selectedProject.category">
                         <span class="inline-block px-3 py-1 bg-accent/20 text-accent text-xs rounded-full mb-4 font-mono" x-text="locale === 'en' ? (selectedProject.category.name_en || selectedProject.category.name_id) : (selectedProject.category.name_id || selectedProject.category.name_en)"></span>
                     </template>
-                    <p class="text-gray-300 leading-relaxed" x-text="selectedProject ? (locale === 'en' ? (selectedProject.description_en || selectedProject.description_id) : (selectedProject.description_id || selectedProject.description_en)) : ''"></p>
+                    <p class="text-xs sm:text-base text-gray-300 leading-relaxed" x-text="selectedProject ? (locale === 'en' ? (selectedProject.description_en || selectedProject.description_id) : (selectedProject.description_id || selectedProject.description_en)) : ''"></p>
                     <template x-if="selectedProject && selectedProject.link">
-                        <div class="mt-8">
-                            <a :href="selectedProject.link" target="_blank" class="inline-flex items-center px-4 py-2 border border-accent text-accent font-mono text-sm rounded hover:bg-accent hover:text-primary transition-colors">
+                        <div class="mt-6 sm:mt-8">
+                            <a :href="selectedProject.link" target="_blank" class="inline-flex items-center px-4 py-2 border border-accent text-accent font-mono text-xs sm:text-sm rounded hover:bg-accent hover:text-primary transition-colors">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                 <span x-text="locale === 'en' ? 'Launch Project' : 'Buka Proyek'"></span>
                             </a>
@@ -349,25 +350,25 @@
         </div>
         
         <!-- Experience Window -->
-        <div class="absolute top-32 left-64 w-[700px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="experience-window" x-show="windows.experience.open" x-transition x-on:mousedown="bringToFront('experience')" :style="'z-index: ' + windows.experience.z" x-cloak x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-32 sm:left-48 sm:right-auto w-auto sm:w-[700px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="experience-window" x-show="windows.experience.open" x-transition x-on:mousedown="bringToFront('experience')" x-on:touchstart="bringToFront('experience')" :style="'z-index: ' + windows.experience.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('experience')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">Experience.md</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">Experience.md</div>
             </div>
-            <div class="p-6 overflow-y-auto h-[500px] bg-slate-900/50">
-                <h2 class="text-2xl font-bold mb-6 text-warning" x-text="locale === 'en' ? '# Professional Experience' : '# Pengalaman Kerja'"></h2>
-                <div class="space-y-6 relative border-l border-white/20 ml-3">
+            <div class="p-4 sm:p-6 overflow-y-auto h-[60vh] sm:h-[500px] bg-slate-900/50">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-warning" x-text="locale === 'en' ? '# Professional Experience' : '# Pengalaman Kerja'"></h2>
+                <div class="space-y-4 sm:space-y-6 relative border-l border-white/20 ml-3">
                     @forelse($experiences as $exp)
-                        <div class="pl-6 relative">
+                        <div class="pl-4 sm:pl-6 relative">
                             <div class="absolute w-3 h-3 bg-warning rounded-full -left-[6.5px] top-1"></div>
-                            <h3 class="font-bold text-lg"><span x-text='locale === "en" ? @json($exp->title_en ?? $exp->title_id) : @json($exp->title_id ?? $exp->title_en)'></span> <span class="text-sm text-gray-400 font-normal">@ {{ $exp->company }}</span></h3>
-                            <p class="text-xs text-gray-500 mb-2">{{ $exp->start_date ? \Carbon\Carbon::parse($exp->start_date)->format('M Y') : 'Start' }} - {{ $exp->end_date ? \Carbon\Carbon::parse($exp->end_date)->format('M Y') : 'Present' }}</p>
-                            <p class="text-sm text-gray-300" x-text='locale === "en" ? @json($exp->description_en ?? $exp->description_id) : @json($exp->description_id ?? $exp->description_en)'></p>
+                            <h3 class="font-bold text-base sm:text-lg"><span x-text='locale === "en" ? @json($exp->title_en ?? $exp->title_id) : @json($exp->title_id ?? $exp->title_en)'></span> <span class="text-xs sm:text-sm text-gray-400 font-normal">@ {{ $exp->company }}</span></h3>
+                            <p class="text-[11px] sm:text-xs text-gray-500 mb-1 sm:mb-2">{{ $exp->start_date ? \Carbon\Carbon::parse($exp->start_date)->format('M Y') : 'Start' }} - {{ $exp->end_date ? \Carbon\Carbon::parse($exp->end_date)->format('M Y') : 'Present' }}</p>
+                            <p class="text-xs sm:text-sm text-gray-300" x-text='locale === "en" ? @json($exp->description_en ?? $exp->description_id) : @json($exp->description_id ?? $exp->description_en)'></p>
                         </div>
                     @empty
                         <div class="pl-6 text-gray-500 text-sm" x-text="locale === 'en' ? 'Experience data is empty.' : 'Data pengalaman kosong.'"></div>
@@ -377,22 +378,22 @@
         </div>
 
         <!-- Skills Window -->
-        <div class="absolute top-10 left-[500px] w-[500px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="skills-window" x-show="windows.skills.open" x-transition x-on:mousedown="bringToFront('skills')" :style="'z-index: ' + windows.skills.z" x-cloak x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-10 sm:left-40 sm:right-auto w-auto sm:w-[500px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="skills-window" x-show="windows.skills.open" x-transition x-on:mousedown="bringToFront('skills')" x-on:touchstart="bringToFront('skills')" :style="'z-index: ' + windows.skills.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('skills')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">Skills - System Preferences</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">Skills - System Preferences</div>
             </div>
-            <div class="p-6 overflow-y-auto h-[400px] bg-slate-900/50">
-                <h2 class="text-2xl font-bold mb-4" x-text="locale === 'en' ? 'Tech Stack' : 'Teknologi Utama'"></h2>
+            <div class="p-4 sm:p-6 overflow-y-auto h-[55vh] sm:h-[400px] bg-slate-900/50">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4" x-text="locale === 'en' ? 'Tech Stack' : 'Teknologi Utama'"></h2>
                 <div class="space-y-4">
                     @forelse($skills as $skill)
                         <div>
-                            <div class="flex justify-between text-sm mb-1">
+                            <div class="flex justify-between text-xs sm:text-sm mb-1">
                                 <span x-text='locale === "en" ? @json($skill->title_en ?? $skill->title_id) : @json($skill->title_id ?? $skill->title_en)'></span>
                                 <span>{{ $skill->percentage }}%</span>
                             </div>
@@ -408,29 +409,29 @@
         </div>
 
         <!-- Contact Window -->
-        <div class="absolute top-24 left-96 w-[400px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="contact-window" x-show="windows.contact.open" x-transition x-on:mousedown="bringToFront('contact')" :style="'z-index: ' + windows.contact.z" x-cloak x-draggable>
+        <div class="absolute top-16 left-2 right-2 sm:top-24 sm:left-64 sm:right-auto w-auto sm:w-[400px] max-w-full bg-secondary rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="contact-window" x-show="windows.contact.open" x-transition x-on:mousedown="bringToFront('contact')" x-on:touchstart="bringToFront('contact')" :style="'z-index: ' + windows.contact.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('contact')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">Mail - Compose</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">Mail - Compose</div>
             </div>
-            <div class="p-6 bg-slate-900/50">
-                <form @submit.prevent="submitContact" class="space-y-4">
+            <div class="p-4 sm:p-6 bg-slate-900/50">
+                <form @submit.prevent="submitContact" class="space-y-3 sm:space-y-4">
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">To: Danang Abu Hafid</label>
-                        <input type="text" x-model="contactForm.name" placeholder="Your Name" required class="w-full bg-primary border border-white/10 rounded p-2 text-sm focus:border-accent outline-none">
+                        <input type="text" x-model="contactForm.name" placeholder="Your Name" required class="w-full bg-primary border border-white/10 rounded p-2 text-xs sm:text-sm focus:border-accent outline-none">
                     </div>
                     <div>
-                        <input type="email" x-model="contactForm.email" placeholder="Your Email" required class="w-full bg-primary border border-white/10 rounded p-2 text-sm focus:border-accent outline-none">
+                        <input type="email" x-model="contactForm.email" placeholder="Your Email" required class="w-full bg-primary border border-white/10 rounded p-2 text-xs sm:text-sm focus:border-accent outline-none">
                     </div>
                     <div>
-                        <textarea x-model="contactForm.message" rows="4" placeholder="Message..." required class="w-full bg-primary border border-white/10 rounded p-2 text-sm focus:border-accent outline-none"></textarea>
+                        <textarea x-model="contactForm.message" rows="3" placeholder="Message..." required class="w-full bg-primary border border-white/10 rounded p-2 text-xs sm:text-sm focus:border-accent outline-none"></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-2 rounded text-sm transition-colors flex items-center justify-center">
+                    <button type="submit" class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-2 rounded text-xs sm:text-sm transition-colors flex items-center justify-center">
                         <span x-show="!contactSending">Send Message</span>
                         <span x-show="contactSending">Sending...</span>
                     </button>
@@ -440,41 +441,41 @@
         </div>
 
         <!-- Notes Window -->
-        <div class="absolute top-20 left-1/4 w-[700px] max-w-full bg-[#1e1e1e] rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
-             id="notes-window" x-show="windows.notes.open" x-transition x-on:mousedown="bringToFront('notes')" :style="'z-index: ' + windows.notes.z" x-cloak x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-20 sm:left-36 sm:right-auto w-auto sm:w-[700px] max-w-full bg-[#1e1e1e] rounded-lg shadow-2xl border border-white/10 flex flex-col os-window"
+             id="notes-window" x-show="windows.notes.open" x-transition x-on:mousedown="bringToFront('notes')" x-on:touchstart="bringToFront('notes')" :style="'z-index: ' + windows.notes.z" x-cloak x-draggable>
             <div class="h-10 bg-[#2d2d2d] flex items-center px-4 window-drag-handle border-b border-[#3c3c3c] rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('notes')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-300 font-medium flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                <div class="mx-auto text-xs text-gray-300 font-medium flex items-center truncate px-2">
+                    <svg class="w-4 h-4 mr-2 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     Notes
                 </div>
             </div>
-            <div class="flex h-[450px]">
+            <div class="flex flex-col sm:flex-row h-[60vh] sm:h-[450px]">
                 <!-- Sidebar -->
-                <div class="w-1/3 border-r border-[#3c3c3c] bg-[#1e1e1e] overflow-y-auto">
+                <div class="w-full sm:w-1/3 border-b sm:border-b-0 sm:border-r border-[#3c3c3c] bg-[#1e1e1e] overflow-y-auto max-h-32 sm:max-h-none">
                     <div class="p-3">
                         <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2" x-text="locale === 'en' ? 'My Notes' : 'Catatanku'"></div>
                         <template x-for="(note, index) in notesData" :key="index">
-                            <div class="p-3 rounded-lg cursor-pointer transition-colors" 
+                            <div class="p-2 sm:p-3 rounded-lg cursor-pointer transition-colors" 
                                  :class="selectedNoteIndex === index ? 'bg-accent/20 text-white' : 'text-gray-400 hover:bg-white/5'"
                                  @click="selectedNoteIndex = index">
-                                <div class="font-bold truncate" x-text="note.title"></div>
-                                <div class="text-xs mt-1 truncate text-gray-500" x-text="note.content"></div>
+                                <div class="font-bold truncate text-xs sm:text-sm" x-text="note.title"></div>
+                                <div class="text-[11px] sm:text-xs mt-0.5 sm:mt-1 truncate text-gray-500" x-text="note.content"></div>
                             </div>
                         </template>
                     </div>
                 </div>
                 <!-- Content -->
-                <div class="w-2/3 bg-[#1e1e1e] p-6 overflow-y-auto text-gray-200">
+                <div class="w-full sm:w-2/3 bg-[#1e1e1e] p-4 sm:p-6 overflow-y-auto text-gray-200 flex-1">
                     <template x-if="notesData.length > 0">
                         <div>
-                            <h2 class="text-3xl font-bold mb-1 text-white" x-text="notesData[selectedNoteIndex].title"></h2>
-                            <div class="text-xs text-gray-500 mb-6" x-text="notesData[selectedNoteIndex].date"></div>
-                            <div class="whitespace-pre-wrap leading-relaxed text-sm" x-text="notesData[selectedNoteIndex].content"></div>
+                            <h2 class="text-xl sm:text-3xl font-bold mb-1 text-white" x-text="notesData[selectedNoteIndex].title"></h2>
+                            <div class="text-[11px] sm:text-xs text-gray-500 mb-4 sm:mb-6" x-text="notesData[selectedNoteIndex].date"></div>
+                            <div class="whitespace-pre-wrap leading-relaxed text-xs sm:text-sm" x-text="notesData[selectedNoteIndex].content"></div>
                         </div>
                     </template>
                 </div>
@@ -482,30 +483,30 @@
         </div>
 
         <!-- System Preferences Window -->
-        <div class="absolute top-16 left-28 w-[640px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
-             id="preferences-window" x-show="windows.preferences.open" x-transition x-on:mousedown="bringToFront('preferences')" :style="'z-index: ' + windows.preferences.z" x-cloak x-draggable>
+        <div class="absolute top-14 left-2 right-2 sm:top-16 sm:left-28 sm:right-auto w-auto sm:w-[640px] max-w-full bg-secondary/95 rounded-lg shadow-2xl border border-white/10 flex flex-col os-window backdrop-blur-xl"
+             id="preferences-window" x-show="windows.preferences.open" x-transition x-on:mousedown="bringToFront('preferences')" x-on:touchstart="bringToFront('preferences')" :style="'z-index: ' + windows.preferences.z" x-cloak x-draggable>
             <div class="h-8 bg-primary flex items-center px-4 window-drag-handle border-b border-white/10 rounded-t-lg">
                 <div class="flex space-x-2">
                     <div class="w-3 h-3 rounded-full bg-danger cursor-pointer hover:opacity-80" @click="toggleWindow('preferences')"></div>
                     <div class="w-3 h-3 rounded-full bg-warning cursor-pointer hover:opacity-80"></div>
                     <div class="w-3 h-3 rounded-full bg-success cursor-pointer hover:opacity-80"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-mono">System Preferences - Wallpaper & Themes</div>
+                <div class="mx-auto text-xs text-gray-400 font-mono truncate px-2">System Preferences - Wallpaper & Themes</div>
             </div>
-            <div class="p-6 bg-slate-900/60 overflow-y-auto max-h-[500px]">
-                <h3 class="text-lg font-bold text-white mb-1">Desktop Wallpaper</h3>
-                <p class="text-xs text-gray-400 mb-6">Select a wallpaper theme for your DanangOS desktop session.</p>
+            <div class="p-4 sm:p-6 bg-slate-900/60 overflow-y-auto max-h-[60vh] sm:max-h-[500px]">
+                <h3 class="text-base sm:text-lg font-bold text-white mb-1">Desktop Wallpaper</h3>
+                <p class="text-xs text-gray-400 mb-4 sm:mb-6">Select a wallpaper theme for your DanangOS desktop session.</p>
 
-                <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
                     <!-- Sonoma Dark -->
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
                          :class="currentWallpaper === 'sonoma' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
                          @click="currentWallpaper = 'sonoma'">
-                        <div class="h-24 rounded-lg wallpaper-sonoma mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                        <div class="h-20 sm:h-24 rounded-lg wallpaper-sonoma mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-white">Sonoma Dark</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-semibold text-white">Sonoma Dark</span>
+                            <span class="text-xs sm:text-sm font-semibold text-white">Sonoma Dark</span>
                             <span x-show="currentWallpaper === 'sonoma'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
@@ -514,11 +515,11 @@
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
                          :class="currentWallpaper === 'cyberpunk' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
                          @click="currentWallpaper = 'cyberpunk'">
-                        <div class="h-24 rounded-lg wallpaper-cyberpunk mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                        <div class="h-20 sm:h-24 rounded-lg wallpaper-cyberpunk mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-pink-300">Cyberpunk Neon</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-semibold text-white">Cyberpunk Neon</span>
+                            <span class="text-xs sm:text-sm font-semibold text-white">Cyberpunk Neon</span>
                             <span x-show="currentWallpaper === 'cyberpunk'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
@@ -527,11 +528,11 @@
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
                          :class="currentWallpaper === 'retrowave' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
                          @click="currentWallpaper = 'retrowave'">
-                        <div class="h-24 rounded-lg wallpaper-retrowave mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                        <div class="h-20 sm:h-24 rounded-lg wallpaper-retrowave mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-rose-300">Retrowave Sunset</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-semibold text-white">Retrowave Sunset</span>
+                            <span class="text-xs sm:text-sm font-semibold text-white">Retrowave Sunset</span>
                             <span x-show="currentWallpaper === 'retrowave'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
@@ -540,25 +541,25 @@
                     <div class="border-2 rounded-xl p-3 cursor-pointer transition-all hover:scale-[1.02]"
                          :class="currentWallpaper === 'matrix' ? 'border-accent bg-accent/10 shadow-lg' : 'border-white/10 bg-primary/40 hover:border-white/20'"
                          @click="currentWallpaper = 'matrix'">
-                        <div class="h-24 rounded-lg wallpaper-matrix mb-3 shadow-inner border border-white/10 flex items-center justify-center">
+                        <div class="h-20 sm:h-24 rounded-lg wallpaper-matrix mb-3 shadow-inner border border-white/10 flex items-center justify-center">
                             <span class="text-xs font-mono bg-black/40 px-2 py-1 rounded text-green-400">Matrix Emerald</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-semibold text-white">Matrix Emerald</span>
+                            <span class="text-xs sm:text-sm font-semibold text-white">Matrix Emerald</span>
                             <span x-show="currentWallpaper === 'matrix'" class="text-xs text-accent font-bold">Active</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="p-4 bg-white/5 rounded-xl border border-white/10 text-xs text-gray-300 flex items-center justify-between">
+                <div class="p-3 sm:p-4 bg-white/5 rounded-xl border border-white/10 text-xs text-gray-300 flex items-center justify-between">
                     <span>Pro-tip: You can also change themes directly from Terminal using <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">wallpaper 1..4</code> or <code class="bg-black/50 text-accent px-1.5 py-0.5 rounded font-mono">theme cyberpunk</code>!</span>
                 </div>
             </div>
         </div>
 
         <!-- Music Player Window -->
-        <div class="absolute bottom-24 right-8 w-80 bg-[#1e2330] rounded-3xl shadow-2xl overflow-hidden os-window border border-white/10"
-             id="music-window" x-show="windows.music.open" x-transition x-on:mousedown="bringToFront('music')" :style="'z-index: ' + windows.music.z" x-cloak x-draggable>
+        <div class="absolute bottom-16 left-2 right-2 sm:bottom-24 sm:right-8 sm:left-auto w-auto sm:w-80 bg-[#1e2330] rounded-3xl shadow-2xl overflow-hidden os-window border border-white/10"
+             id="music-window" x-show="windows.music.open" x-transition x-on:mousedown="bringToFront('music')" x-on:touchstart="bringToFront('music')" :style="'z-index: ' + windows.music.z" x-cloak x-draggable>
             <div class="window-drag-handle flex items-center px-5 pt-5 pb-2">
                 <div class="flex space-x-2">
                     <div class="w-3.5 h-3.5 rounded-full bg-[#ff5f56] cursor-pointer hover:opacity-80" @click="closeMusic()" title="Close"></div>
@@ -566,23 +567,23 @@
                     <div class="w-3.5 h-3.5 rounded-full bg-[#27c93f] cursor-pointer hover:opacity-80"></div>
                 </div>
             </div>
-            <div class="px-6 pb-8 pt-4 flex flex-col items-center">
-                <div class="w-36 h-36 rounded-full overflow-hidden mb-6 border-4 border-white/5 relative shadow-lg" :class="isAudioPlaying ? 'animate-[spin_4s_linear_infinite]' : ''">
+            <div class="px-6 pb-6 sm:pb-8 pt-2 sm:pt-4 flex flex-col items-center">
+                <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden mb-4 sm:mb-6 border-4 border-white/5 relative shadow-lg" :class="isAudioPlaying ? 'animate-[spin_4s_linear_infinite]' : ''">
                     <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 m-auto w-8 h-8 bg-[#1e2330] rounded-full border border-black/50 shadow-inner"></div>
+                    <div class="absolute inset-0 m-auto w-7 h-7 sm:w-8 sm:h-8 bg-[#1e2330] rounded-full border border-black/50 shadow-inner"></div>
                 </div>
-                <div class="text-center mb-6">
-                    <h3 class="font-bold text-white text-xl mb-1" x-text="stations[currentStationIndex].title"></h3>
-                    <p class="text-sm text-gray-400" x-text="stations[currentStationIndex].subtitle"></p>
+                <div class="text-center mb-4 sm:mb-6">
+                    <h3 class="font-bold text-white text-lg sm:text-xl mb-1" x-text="stations[currentStationIndex].title"></h3>
+                    <p class="text-xs sm:text-sm text-gray-400" x-text="stations[currentStationIndex].subtitle"></p>
                 </div>
                 
                 <audio id="lofi-audio" :src="stations[currentStationIndex].src" preload="none"></audio>
                 
-                <div class="flex items-center space-x-8 mb-10">
+                <div class="flex items-center space-x-6 sm:space-x-8 mb-6 sm:mb-10">
                     <button @click="prevStation()" class="text-gray-300 hover:text-white transition-colors" title="Previous Station">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
                     </button>
-                    <button @click="toggleAudio()" class="w-14 h-14 bg-white text-black rounded-full flex items-center justify-center hover:scale-105 transition-transform shadow-lg">
+                    <button @click="toggleAudio()" class="w-12 h-12 sm:w-14 sm:h-14 bg-white text-black rounded-full flex items-center justify-center hover:scale-105 transition-transform shadow-lg">
                         <svg x-show="!isAudioPlaying" class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
                         <svg x-show="isAudioPlaying" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
                     </button>
@@ -602,88 +603,88 @@
     </main>
 
     <!-- macOS Dock -->
-    <div class="h-16 mb-4 flex justify-center z-50 pointer-events-none">
-        <div class="bg-glass backdrop-blur-xl border border-white/10 rounded-2xl px-4 flex items-center space-x-4 pointer-events-auto">
+    <div class="h-16 mb-2 sm:mb-4 flex justify-center z-50 pointer-events-none px-2 w-full">
+        <div class="bg-glass backdrop-blur-xl border border-white/10 rounded-2xl px-2 sm:px-4 flex items-center space-x-2 sm:space-x-4 pointer-events-auto max-w-full overflow-x-auto no-scrollbar py-1">
             
             <!-- Terminal App -->
-            <button class="w-12 h-12 rounded-xl bg-gray-900 border border-gray-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('terminal')">
-                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-900 border border-gray-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('terminal')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Terminal</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.terminal.open"></div>
             </button>
 
             <!-- Projects App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('projects')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('projects')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Projects</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.projects.open" x-cloak></div>
             </button>
             
             <!-- Experience App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('experience')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('experience')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Experience</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.experience.open" x-cloak></div>
             </button>
             
             <!-- Skills App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('skills')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('skills')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Skills</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.skills.open" x-cloak></div>
             </button>
             
             <!-- Contact App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('contact')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('contact')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Contact</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.contact.open" x-cloak></div>
             </button>
             
-            <div class="w-px h-10 bg-white/20 mx-1"></div>
+            <div class="w-px h-8 sm:h-10 bg-white/20 mx-0.5 sm:mx-1 flex-shrink-0"></div>
 
             <!-- Notes App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-300 to-yellow-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('notes')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-yellow-300 to-yellow-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('notes')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Notes</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.notes.open" x-cloak></div>
             </button>
             
             <!-- Music App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('music')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('music')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Lofi Player</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.music.open" x-cloak></div>
             </button>
 
             <!-- Preferences App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('preferences')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('preferences')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Settings</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.preferences.open" x-cloak></div>
             </button>
             
             <!-- System CLI App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('cli')">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('cli')">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">System CLI</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.cli.open" x-cloak></div>
             </button>
             
-            <div class="w-px h-10 bg-white/20 mx-1"></div>
+            <div class="w-px h-8 sm:h-10 bg-white/20 mx-0.5 sm:mx-1 flex-shrink-0"></div>
             
             <!-- AI App -->
-            <button class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group" @click="toggleWindow('aichat')">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('aichat')">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Danang AI</span>
                 <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.aichat.open" x-cloak></div>
             </button>
             
-            <div class="w-px h-10 bg-white/20 mx-2"></div>
+            <div class="w-px h-8 sm:h-10 bg-white/20 mx-0.5 sm:mx-2 flex-shrink-0"></div>
 
             <!-- Admin Panel -->
-            <a href="/admin" class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            <a href="/admin" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Admin Panel</span>
             </a>
 
@@ -695,37 +696,60 @@
             // Draggable Directive
             Alpine.directive('draggable', (el, { modifiers }) => {
                 let isDragging = false;
-                let startX = 0, startY = 0;
                 let initialX = 0, initialY = 0;
                 let xOffset = 0, yOffset = 0;
 
                 const handle = el.querySelector('.window-drag-handle') || el;
 
+                function getClientPos(e) {
+                    if (e.touches && e.touches.length > 0) {
+                        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    }
+                    return { x: e.clientX, y: e.clientY };
+                }
+
                 handle.addEventListener('mousedown', dragStart);
+                handle.addEventListener('touchstart', dragStart, { passive: false });
+
                 document.addEventListener('mouseup', dragEnd);
+                document.addEventListener('touchend', dragEnd);
+
                 document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag, { passive: false });
 
                 function dragStart(e) {
-                    if (e.target.tagName.toLowerCase() === 'button' || e.target.closest('button') || e.target.closest('.cursor-pointer')) return;
-                    initialX = e.clientX - xOffset;
-                    initialY = e.clientY - yOffset;
+                    if (e.target.tagName.toLowerCase() === 'button' || 
+                        e.target.closest('button') || 
+                        e.target.closest('.cursor-pointer') ||
+                        e.target.tagName.toLowerCase() === 'input' ||
+                        e.target.tagName.toLowerCase() === 'textarea') return;
+                    
+                    const pos = getClientPos(e);
+                    initialX = pos.x - xOffset;
+                    initialY = pos.y - yOffset;
                     isDragging = true;
-                    el.style.opacity = '0.9';
+                    el.style.opacity = '0.95';
                 }
+
                 function dragEnd(e) {
                     initialX = xOffset;
                     initialY = yOffset;
                     isDragging = false;
                     el.style.opacity = '1';
                 }
+
                 function drag(e) {
                     if (isDragging) {
-                        e.preventDefault();
-                        xOffset = e.clientX - initialX;
-                        yOffset = e.clientY - initialY;
+                        if (e.type === 'touchmove') {
+                            e.preventDefault();
+                        }
+                        const pos = getClientPos(e);
+                        xOffset = pos.x - initialX;
+                        yOffset = pos.y - initialY;
                         setTranslate(xOffset, yOffset, el);
                     }
                 }
+
                 function setTranslate(xPos, yPos, el) {
                     el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
                 }
