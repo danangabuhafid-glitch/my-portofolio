@@ -32,9 +32,8 @@ class HomeController extends Controller
             $apiKey = config('services.gemini.key') ?? env('GEMINI_API_KEY');
             
             $models = [
-                'gemini-2.0-flash',
-                'gemini-1.5-flash',
-                'gemini-1.5-flash-8b',
+                'gemini-2.5-flash',
+                'gemini-2.5-flash-lite',
             ];
 
             $response = null;
@@ -57,12 +56,7 @@ class HomeController extends Controller
                     break; // Success! Exit the loop.
                 }
 
-                if ($response->status() !== 429) {
-                    $json = $response->json();
-                    break; // If it's a real error (not just rate limit), break and return it.
-                }
-                
-                // If 429 (Rate Limit), the loop continues to the next model.
+                $json = $response->json();
             }
             
             if ($response && $response->successful() && isset($json['candidates'][0]['content']['parts'][0]['text'])) {
