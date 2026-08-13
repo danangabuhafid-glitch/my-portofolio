@@ -603,42 +603,42 @@
     </main>
 
     <!-- macOS Dock -->
-    <div class="h-16 mb-2 sm:mb-4 flex justify-center z-50 pointer-events-none px-2 w-full">
-        <div class="bg-glass backdrop-blur-xl border border-white/10 rounded-2xl px-2 sm:px-4 flex items-center space-x-2 sm:space-x-4 pointer-events-auto max-w-full overflow-x-auto no-scrollbar py-1">
+    <div class="fixed bottom-2 inset-x-2 sm:bottom-4 z-[999] flex justify-center pointer-events-none w-auto sm:w-full">
+        <div class="bg-glass backdrop-blur-2xl border border-white/15 rounded-2xl p-1.5 sm:px-4 flex items-center space-x-2 sm:space-x-4 pointer-events-auto max-w-full overflow-x-auto no-scrollbar py-1 shadow-2xl touch-pan-x flex-nowrap">
             
             <!-- Terminal App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-900 border border-gray-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('terminal')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Terminal</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.terminal.open"></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Terminal</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.terminal.open"></div>
             </button>
 
             <!-- Projects App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('projects')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Projects</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.projects.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Projects</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.projects.open" x-cloak></div>
             </button>
             
             <!-- Experience App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('experience')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Experience</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.experience.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Experience</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.experience.open" x-cloak></div>
             </button>
             
             <!-- Skills App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('skills')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Skills</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.skills.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Skills</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.skills.open" x-cloak></div>
             </button>
             
             <!-- Contact App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('contact')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Contact</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.contact.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Contact</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.contact.open" x-cloak></div>
             </button>
             
             <div class="w-px h-8 sm:h-10 bg-white/20 mx-0.5 sm:mx-1 flex-shrink-0"></div>
@@ -646,29 +646,29 @@
             <!-- Notes App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-yellow-300 to-yellow-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('notes')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Notes</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.notes.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Notes</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.notes.open" x-cloak></div>
             </button>
             
             <!-- Music App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('music')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Lofi Player</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.music.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Lofi Player</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.music.open" x-cloak></div>
             </button>
 
             <!-- Preferences App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('preferences')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Settings</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.preferences.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Settings</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.preferences.open" x-cloak></div>
             </button>
             
             <!-- System CLI App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('cli')">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">System CLI</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.cli.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">System CLI</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.cli.open" x-cloak></div>
             </button>
             
             <div class="w-px h-8 sm:h-10 bg-white/20 mx-0.5 sm:mx-1 flex-shrink-0"></div>
@@ -676,8 +676,8 @@
             <!-- AI App -->
             <button class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0" @click="toggleWindow('aichat')">
                 <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Danang AI</span>
-                <div class="absolute -bottom-1 w-1 h-1 bg-white rounded-full" x-show="windows.aichat.open" x-cloak></div>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Danang AI</span>
+                <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow" x-show="windows.aichat.open" x-cloak></div>
             </button>
             
             <div class="w-px h-8 sm:h-10 bg-white/20 mx-0.5 sm:mx-2 flex-shrink-0"></div>
@@ -685,7 +685,7 @@
             <!-- Admin Panel -->
             <a href="/admin" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center hover:scale-110 transition-transform shadow-lg relative group flex-shrink-0">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                <span class="absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Admin Panel</span>
+                <span class="hidden sm:block absolute -top-10 bg-secondary px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Admin Panel</span>
             </a>
 
         </div>
@@ -1075,6 +1075,13 @@ Follow the white rabbit. 🐇
                     this.windows[id].open = !this.windows[id].open;
                     if(this.windows[id].open) {
                         this.bringToFront(id);
+                        if (window.innerWidth < 640) {
+                            Object.keys(this.windows).forEach(k => {
+                                if (k !== id) {
+                                    this.windows[k].open = false;
+                                }
+                            });
+                        }
                     }
                 },
                 bringToFront(id) {
