@@ -29,11 +29,12 @@ class HomeController extends Controller
         }
 
         try {
+            $apiKey = config('services.gemini.key') ?? env('GEMINI_API_KEY');
+            
             $models = [
-                'gemini-2.5-flash',
-                'gemini-2.5-flash-lite',
-                'gemini-2-flash',
-                'gemini-2-flash-lite'
+                'gemini-2.0-flash',
+                'gemini-1.5-flash',
+                'gemini-1.5-flash-8b',
             ];
 
             $response = null;
@@ -42,7 +43,7 @@ class HomeController extends Controller
             foreach ($models as $model) {
                 $response = \Illuminate\Support\Facades\Http::withHeaders([
                     'Content-Type' => 'application/json'
-                ])->post('https://generativelanguage.googleapis.com/v1beta/models/' . $model . ':generateContent?key=' . env('GEMINI_API_KEY'), [
+                ])->post('https://generativelanguage.googleapis.com/v1beta/models/' . $model . ':generateContent?key=' . $apiKey, [
                     'contents' => [
                         ['parts' => [['text' => $prompt]]]
                     ],
